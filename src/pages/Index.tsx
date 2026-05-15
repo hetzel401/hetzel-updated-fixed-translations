@@ -7,7 +7,7 @@ import DiscordProfile from "@/components/DiscordProfile";
 import Typewriter from "@/components/Typewriter";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCustomization } from "@/context/CustomizationContext";
-import { DISCORD_ID, stats } from "@/lib/site-constants";
+import { DISCORD_ID, stats, communityStatValues, DISCORD_WEBHOOK, SOCIAL_LINKS } from "@/lib/site-constants";
 import useSectionReveal from "@/hooks/use-section-reveal";
 import {
   ArrowUpRight, Bot, Globe, Wrench, Users, Terminal, Server, Cpu, Boxes, Sparkles, Send,
@@ -17,7 +17,6 @@ import {
 
 const SECTION_OFFSET = { scrollMarginTop: 80 };
 const BELOW_FOLD = "content-visibility-auto";
-const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1504718321537515620/d_T7GNMD1lUZRjTkuxTmt4uPA_4dLv-nEBDmdK9-quG6o650EXCUhctaTuQwEFtWvpcw";
 
 // ── Section: Hero ─────────────────────────────────────────────────────────
 
@@ -54,7 +53,7 @@ function HeroSection() {
           </a>
         </div>
         <div className="mt-16 flex items-center gap-2 font-mono text-xs text-muted-foreground animate-bounce">
-          <ChevronDown className="h-4 w-4" /> scroll to explore
+          <ChevronDown className="h-4 w-4" /> {t.hero.scroll}
         </div>
       </div>
     </section>
@@ -82,7 +81,7 @@ function AboutSection() {
 
           {/* Badges */}
           <div className="mt-6 flex flex-wrap gap-2">
-            {["Discord Dev", "Bot Builder", "Web Dev", "Community Manager", "EFT Fan"].map((b) => (
+            {t.about.badges.map((b) => (
               <span key={b} className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-xs text-accent">
                 {b}
               </span>
@@ -221,14 +220,8 @@ function FeaturedProductsSection() {
 
 // ── Section: Community Stats ─────────────────────────────────────────────
 
-const communityStats = [
-  { icon: Users,    value: "1,500+", label: "Discord Members",  sub: "and growing"           },
-  { icon: Bot,      value: "10+",    label: "Custom Bots Made",  sub: "deployed & running"    },
-  { icon: Server,   value: "5+",     label: "Servers Designed",  sub: "active communities"    },
-  { icon: Clock,    value: "1.5+",   label: "Years Experience",  sub: "since 2023"            },
-  { icon: Star,     value: "100%",   label: "Passion",           sub: "all side projects"     },
-  { icon: Zap,      value: "24/7",   label: "Bot Uptime",        sub: "on key servers"        },
-];
+// Values live in site-constants.ts — easy to update without touching JSX
+const communityStatIcons = [Users, Bot, Server, Clock, Star, Zap];
 
 function CommunityStatsSection() {
   const { t } = useLanguage();
@@ -244,7 +237,7 @@ function CommunityStatsSection() {
       </p>
 
       <div className="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-        {communityStats.map(({ icon: Icon, value }, idx) => (
+        {communityStatIcons.map((Icon, idx) => (
           <div key={idx} className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-7 card-hover">
             <div className="card-inner-glow" />
             <div className="relative flex items-start gap-4">
@@ -252,9 +245,9 @@ function CommunityStatsSection() {
                 <Icon className="h-6 w-6" />
               </div>
               <div>
-                <div className="font-display text-3xl font-bold tracking-tight text-foreground">{value}</div>
-                <div className="font-medium text-sm mt-0.5">{s.items[idx].label}</div>
-                <div className="font-mono text-xs text-muted-foreground mt-0.5">{s.items[idx].sub}</div>
+                <div className="font-display text-3xl font-bold tracking-tight text-foreground">{communityStatValues[idx]}</div>
+                <div className="font-medium text-sm mt-0.5">{s.items[idx]?.label}</div>
+                <div className="font-mono text-xs text-muted-foreground mt-0.5">{s.items[idx]?.sub}</div>
               </div>
             </div>
           </div>
@@ -266,55 +259,19 @@ function CommunityStatsSection() {
 
 // ── Section: Testimonials ────────────────────────────────────────────────
 
-const testimonials = [
-  {
-    quote: "Hetzel built us a completely custom bot with an economy system, level-up system, and welcome messages. Absolutely top quality work — delivered faster than expected.",
-    author: "PixelRaven",
-    role: "Server Owner",
-    stars: 5,
-  },
-  {
-    quote: "The server design was incredible. Clean, professional, and exactly what our community needed. Hetzel really listens and delivers.",
-    author: "Kira_Dev",
-    role: "Discord Community Manager",
-    stars: 5,
-  },
-  {
-    quote: "I've been in the Workshop server for months and it's one of the friendliest communities I've found. The bots are super useful and always online.",
-    author: "TundraFox99",
-    role: "Community Member",
-    stars: 5,
-  },
-  {
-    quote: "Got a fully functional moderation + ticket bot for my gaming server. Works perfectly, no bugs. Hetzel responds quickly and is easy to work with.",
-    author: "ShadowBlitz",
-    role: "Gaming Server Owner",
-    stars: 5,
-  },
-  {
-    quote: "The EFT section of the server is so well organized. Maps, guides, loot runs — everything you need in one place. 10/10.",
-    author: "TarkovRat",
-    role: "EFT Community Member",
-    stars: 5,
-  },
-  {
-    quote: "Hetzel's attention to detail is unmatched. Every single channel, role, and permission was thought through. Worth every penny.",
-    author: "NeonCraft",
-    role: "Server Owner",
-    stars: 5,
-  },
-];
-
 function TestimonialsSection() {
+  const { t } = useLanguage();
+  const testimonialData = t.testimonials;
+
   return (
     <section id="testimonials" className={`relative mx-auto max-w-6xl px-6 py-28 reveal-on-scroll ${BELOW_FOLD}`} style={SECTION_OFFSET}>
-      <SectionLabel label="TESTIMONIALS" />
+      <SectionLabel label={testimonialData.sectionLabel} />
       <h2 className="mt-4 font-display text-4xl font-semibold md:text-5xl">
-        What people <span className="text-gradient-brand">say</span>
+        {testimonialData.heading}
       </h2>
 
       <div className="mt-12 grid gap-5 md:grid-cols-3">
-        {testimonials.map((item, idx) => (
+        {testimonialData.items.map((item, idx) => (
           <div key={idx} className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-7 card-hover flex flex-col">
             <div className="card-inner-glow" />
             <div className="relative flex flex-col h-full">
@@ -345,44 +302,20 @@ function TestimonialsSection() {
 
 // ── Section: FAQ ─────────────────────────────────────────────────────────
 
-const faqItems = [
-  {
-    q: "Do you take commissions for Discord bots?",
-    a: "Yes! I take commissions for custom Discord bots. Reach out via the contact page or Discord and we can discuss your requirements, timeline, and pricing.",
-  },
-  {
-    q: "How long does it take to build a bot?",
-    a: "Simple bots (moderation, welcome, basic commands) typically take 1–3 days. More complex systems with economy, games, or integrations can take 1–2 weeks depending on scope.",
-  },
-  {
-    q: "What tech stack do you use for Discord bots?",
-    a: "All my bots are built with Node.js and discord.js v14. I use JSON or MongoDB for data persistence depending on the complexity of the project.",
-  },
-  {
-    q: "Do you offer server design services?",
-    a: "Absolutely. I can set up a Discord server from scratch or redesign an existing one — channel structure, roles, permissions, bots, branding, and onboarding flows.",
-  },
-  {
-    q: "Can I join Hetzel's Workshop for free?",
-    a: "Yes! The server is completely free to join. Just use the invite link and you'll be welcomed in. We have active channels for gaming, bots, general chat, and more.",
-  },
-  {
-    q: "Do you make web development projects?",
-    a: "Yes — personal sites, portfolios, landing pages, and small web tools. This site is built with React, Vite, and Tailwind CSS as an example of my work.",
-  },
-];
-
 function FAQSection() {
+  const { t } = useLanguage();
+  const faqData = t.faq;
+
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   return (
     <section id="faq" className={`relative mx-auto max-w-3xl px-6 py-28 reveal-on-scroll ${BELOW_FOLD}`} style={SECTION_OFFSET}>
-      <SectionLabel label="FAQ" />
+      <SectionLabel label={faqData.sectionLabel} />
       <h2 className="mt-4 font-display text-4xl font-semibold md:text-5xl">
-        Common <span className="text-gradient-brand">questions</span>
+        {faqData.heading}
       </h2>
 
       <div className="mt-12 space-y-3">
-        {faqItems.map((item, idx) => {
+        {faqData.items.map((item, idx) => {
           const isOpen = openIdx === idx;
           return (
             <div
@@ -393,14 +326,14 @@ function FAQSection() {
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
                 className="flex w-full items-center justify-between gap-4 p-6 text-left"
               >
-                <span className="font-medium">{item.q}</span>
+                <span className="font-medium">{item.question}</span>
                 <span className="shrink-0 text-accent">
                   {isOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
                 </span>
               </button>
               {isOpen && (
                 <div className="border-t border-border/60 px-6 pb-6 pt-4 text-sm text-muted-foreground leading-relaxed animate-fade-in">
-                  {item.a}
+                  {item.answer}
                 </div>
               )}
             </div>
@@ -864,42 +797,18 @@ function QuestionnaireSection() {
 
 // ── Section: Footer with Social Links ───────────────────────────────────
 
-const socials = [
-  {
-    label: "Discord",
-    href: "https://discordapp.com/users/1097536305027629119",
-    icon: (
-      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.7 19.7 0 0 0 3.677 4.37.077.077 0 0 0 3.65 4.487c.72 10.795 5.098 16.793 9.3 17.773.5.084 1.002.084 1.501 0 4.203-.98 8.581-6.978 9.3-17.773.015-.12-.005-.243-.05-.36z" />
-      </svg>
-    ),
-    color: "#5865F2",
-  },
-  {
-    label: "YouTube",
-    href: "https://www.youtube.com/@Hetzel401",
-    icon: <Youtube className="h-5 w-5" />,
-    color: "#FF0000",
-  },
-  {
-    label: "Roblox",
-    href: "https://www.roblox.com/users/1517909098/profile",
-    icon: <Gamepad2 className="h-5 w-5" />,
-    color: "#e1523d",
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/hetzel401",
-    icon: <Github className="h-5 w-5" />,
-    color: "#ffffff",
-  },
-  {
-    label: "Email",
-    href: "mailto:universemax401@gmail.com",
-    icon: <Send className="h-5 w-5" />,
-    color: "hsl(var(--accent))",
-  },
-];
+/** Maps a social link label to its icon JSX */
+function SocialIcon({ label }: { label: string }) {
+  if (label === "Discord") return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.7 19.7 0 0 0 3.677 4.37.077.077 0 0 0 3.65 4.487c.72 10.795 5.098 16.793 9.3 17.773.5.084 1.002.084 1.501 0 4.203-.98 8.581-6.978 9.3-17.773.015-.12-.005-.243-.05-.36z" />
+    </svg>
+  );
+  if (label === "YouTube") return <Youtube className="h-5 w-5" />;
+  if (label === "Roblox")  return <Gamepad2 className="h-5 w-5" />;
+  if (label === "GitHub")  return <Github className="h-5 w-5" />;
+  return <Send className="h-5 w-5" />;
+}
 
 function FullFooter() {
   const { t } = useLanguage();
