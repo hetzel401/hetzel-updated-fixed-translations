@@ -11,11 +11,22 @@ export function useIsMobile() {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
     }
     
-    // Modern browsers use addEventListener
-    mql.addEventListener("change", onChange)
+    if (mql.addEventListener) {
+      mql.addEventListener("change", onChange)
+    } else {
+      // Fallback for older browsers/environments
+      (mql as any).addListener(onChange)
+    }
+    
     setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
     
-    return () => mql.removeEventListener("change", onChange)
+    return () => {
+      if (mql.removeEventListener) {
+        mql.removeEventListener("change", onChange)
+      } else {
+        (mql as any).removeListener(onChange)
+      }
+    }
   }, [])
 
   return !!isMobile

@@ -1,5 +1,5 @@
 import React from "react";
-import { Clock, ShieldCheck } from "lucide-react";
+import { Clock as LucideClock, ShieldCheck } from "lucide-react";
 import { useLanyard } from "../hooks/use-lanyard";
 
 const StatusBanner = () => {
@@ -29,7 +29,7 @@ const StatusBanner = () => {
 
       <div className="flex gap-4">
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
-          <Clock className="w-4 h-4 text-indigo-400" />
+          <LucideClock className="w-4 h-4 text-indigo-400" />
           <span className="text-xs font-medium text-white/80">Active Now</span>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10">
