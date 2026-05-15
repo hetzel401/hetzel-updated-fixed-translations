@@ -288,6 +288,11 @@ export const translations = {
       "I handle multiple things at 1 time.",
       "I design software used in day-to-day lives.",
     ],
+    widgets: {
+      clock: {
+        title: "Local Time",
+      }
+    },
   },
 
   es: {
@@ -407,6 +412,11 @@ export const translations = {
       "Manejo múltiples cosas al mismo tiempo.",
       "Diseño software usado en la vida cotidiana.",
     ],
+    widgets: {
+      clock: {
+        title: "Hora Local",
+      }
+    },
   },
 
   fr: {
@@ -526,6 +536,11 @@ export const translations = {
       "Je gère plusieurs choses en même temps.",
       "Je conçois des logiciels utilisés au quotidien.",
     ],
+    widgets: {
+      clock: {
+        title: "Heure Locale",
+      }
+    },
   },
 
   de: {
@@ -645,6 +660,11 @@ export const translations = {
       "Ich bearbeite mehrere Dinge gleichzeitig.",
       "Ich entwerfe Software für den Alltag.",
     ],
+    widgets: {
+      clock: {
+        title: "Ortszeit",
+      }
+    },
   },
 
   pt: {
@@ -676,7 +696,7 @@ export const translations = {
       sectionLabel: "SOBRE MIM",
       heading:      "Oi, eu sou",
       bio1: "Sou designer de servidores, desenvolvedor web e desenvolvedor de bots para Discord. Adoro criar designs visuais com código limpo.",
-      bio2: "No momento, estou focado em criar bots Discord mais avançados e ferramentas personalizadas para comunidades.",
+      bio2: "No momento, estou focado em criar bots Discord mais avanzados e ferramentas personalizadas para comunidades.",
       badges: ["Desenvolvedor", "Designer", "Estudante"],
       stats: {
         yearsExp: "Anos de exp.",
@@ -764,6 +784,11 @@ export const translations = {
       "Gerencio múltiplas coisas ao mesmo tempo.",
       "Desenvolvo software usado no dia a dia.",
     ],
+    widgets: {
+      clock: {
+        title: "Hora Local",
+      }
+    },
   },
 
   ja: {
@@ -883,6 +908,11 @@ export const translations = {
       "複数のことを同時に処理しています。",
       "日常生活で使われるソフトウェアを設計しています。",
     ],
+    widgets: {
+      clock: {
+        title: "現地時間",
+      }
+    },
   },
 } as const;
 

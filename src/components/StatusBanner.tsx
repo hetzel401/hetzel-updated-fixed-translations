@@ -1,8 +1,8 @@
 import React from "react";
-import { Clock, ShieldCheck, Zap } from "lucide-react";
+import { Clock, ShieldCheck } from "lucide-react";
 import { useLanyard } from "../hooks/use-lanyard";
 
-export const StatusBanner = () => {
+const StatusBanner = () => {
   const { data: presence } = useLanyard();
   
   if (!presence) return null;
@@ -40,3 +40,5 @@ export const StatusBanner = () => {
     </div>
   );
 };
+
+export default StatusBanner;
