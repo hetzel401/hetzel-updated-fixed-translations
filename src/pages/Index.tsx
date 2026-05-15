@@ -6,14 +6,13 @@ import { SectionLabel } from "@/components/SectionLabel";
 import DiscordProfile from "@/components/DiscordProfile";
 import Typewriter from "@/components/Typewriter";
 import { useLanguage } from "@/context/LanguageContext";
-import { useCustomization } from "@/context/CustomizationContext";
-import { DISCORD_ID, stats, communityStatValues, DISCORD_WEBHOOK, SOCIAL_LINKS } from "@/lib/site-constants";
 import useSectionReveal from "@/hooks/use-section-reveal";
 import {
   ArrowUpRight, Bot, Globe, Wrench, Users, Terminal, Server, Cpu, Boxes, Sparkles, Send,
-  Star, ChevronDown, ChevronUp, Github, Clock, Youtube,
+  Star, ChevronDown, ChevronUp, Github, Youtube,
   Zap, Gamepad2, Code2, Swords
 } from "lucide-react";
+import { DISCORD_ID, stats, communityStatValues, DISCORD_WEBHOOK, SOCIAL_LINKS } from "@/lib/site-constants";
 
 const SECTION_OFFSET = { scrollMarginTop: 80 };
 const BELOW_FOLD = "content-visibility-auto";
@@ -152,8 +151,6 @@ function TimelineSection() {
 
 // ── Section: Featured Products ───────────────────────────────────────────
 
-const serviceIcons = [Bot, Globe, Wrench, Users];
-
 function FeaturedProductsSection() {
   const { t } = useLanguage();
   const productData = t.productsExtra;
@@ -176,8 +173,8 @@ function FeaturedProductsSection() {
 
       <div className="mt-12 grid gap-5 sm:grid-cols-2">
         {productData.items.map((p, idx) => {
-          const Icon = productMeta[idx].icon;
-          const { href, gradient } = productMeta[idx];
+          const Icon = productMeta[idx]?.icon || Bot;
+          const { href, gradient } = productMeta[idx] || { href: "#", gradient: "from-accent/20 via-transparent to-transparent" };
           return (
             <a
               key={p.name}
@@ -220,7 +217,6 @@ function FeaturedProductsSection() {
 
 // ── Section: Community Stats ─────────────────────────────────────────────
 
-// Values live in site-constants.ts — easy to update without touching JSX
 const communityStatIcons = [Users, Bot, Server, Clock, Star, Zap];
 
 function CommunityStatsSection() {
@@ -496,46 +492,6 @@ function ContactSection() {
 
 // ── Section: Questionnaire ───────────────────────────────────────────────
 
-type QuestionType = "rating" | "radio" | "textarea";
-
-interface Question {
-  id: number;
-  text: string;
-  type: QuestionType;
-  options?: string[];
-}
-
-const QUESTIONS: Question[] = [
-  {
-    id: 1,
-    text: "What do you think of Hetzel's Workshop overall?",
-    type: "rating",
-  },
-  {
-    id: 2,
-    text: "Which of my projects do you like the most?",
-    type: "radio",
-    options: ["Hetzel's Workshop Discord", "My Discord bots", "EFT-related work", "My web projects", "All equally!"],
-  },
-  {
-    id: 3,
-    text: "What feature or improvement would you most like to see added to my Discord bots?",
-    type: "radio",
-    options: ["Economy system improvements", "Better moderation tools", "Mini-games & fun commands", "Custom levelling & XP", "Music / media commands", "Something else (tell me below!)"],
-  },
-  {
-    id: 4,
-    text: "What do you think is the best part of Hetzel's Workshop?",
-    type: "radio",
-    options: ["The community vibe", "The Discord bots", "The EFT section", "The events & activities", "The web presence", "Everything!"],
-  },
-  {
-    id: 5,
-    text: "What suggestions do you have to help me improve my projects and community?",
-    type: "textarea",
-  },
-];
-
 function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [hovered, setHovered] = useState(0);
   const labels = ["", "Poor", "Fair", "Good", "Great", "Excellent"];
@@ -568,6 +524,17 @@ function StarRating({ value, onChange }: { value: number; onChange: (v: number) 
   );
 }
 
+type QuestionType = "rating" | "radio" | "textarea";
+interface Question { id: number; text: string; type: QuestionType; options?: string[]; }
+
+const QUESTIONS: Question[] = [
+  { id: 1, text: "What do you think of Hetzel's Workshop overall?", type: "rating" },
+  { id: 2, text: "Which of my projects do you like the most?", type: "radio", options: ["Hetzel's Workshop Discord", "My Discord bots", "EFT-related work", "My web projects", "All equally!"] },
+  { id: 3, text: "What feature or improvement would you most like to see added to my Discord bots?", type: "radio", options: ["Economy system improvements", "Better moderation tools", "Mini-games & fun commands", "Custom levelling & XP", "Music / media commands", "Something else (tell me below!)"] },
+  { id: 4, text: "What do you think is the best part of Hetzel's Workshop?", type: "radio", options: ["The community vibe", "The Discord bots", "The EFT section", "The events & activities", "The web presence", "Everything!"] },
+  { id: 5, text: "What suggestions do you have to help me improve my projects and community?", type: "textarea" },
+];
+
 function QuestionnaireSection() {
   const { t } = useLanguage();
   const sv = t.survey;
@@ -580,20 +547,14 @@ function QuestionnaireSection() {
   const progress = step === 0 ? 0 : (step / QUESTIONS.length) * 100;
 
   const setAnswer = (id: number, val: string) => setAnswers((a) => ({ ...a, [id]: val }));
-  const canNext = step === 0
-    ? true
-    : current?.type === "rating"
-      ? !!answers[current.id]
-      : !!answers[current.id];
+  const canNext = step === 0 ? true : !!answers[current?.id];
 
   const handleFinish = async () => {
     setSending(true);
     try {
       const fields = QUESTIONS.map((q) => ({
         name: `Q${q.id}: ${q.text}`,
-        value: answers[q.id]
-          ? (q.type === "rating" ? `${"⭐".repeat(Number(answers[q.id]))} (${answers[q.id]}/5)` : answers[q.id])
-          : "Not answered",
+        value: answers[q.id] ? (q.type === "rating" ? `${"⭐".repeat(Number(answers[q.id]))} (${answers[q.id]}/5)` : answers[q.id]) : "Not answered",
         inline: false,
       }));
 
@@ -603,16 +564,7 @@ function QuestionnaireSection() {
         body: JSON.stringify({
           username: "📊 Survey Bot",
           avatar_url: "https://cdn.discordapp.com/embed/avatars/0.png",
-          embeds: [
-            {
-              title: "📋 New Survey Response",
-              description: `Submitted by **${nickname || "Anonymous"}**`,
-              color: 0x8b5cf6,
-              fields,
-              footer: { text: "Hetzel's Workshop · Community Survey" },
-              timestamp: new Date().toISOString(),
-            },
-          ],
+          embeds: [{ title: "📋 New Survey Response", description: `Submitted by **${nickname || "Anonymous"}**`, color: 0x8b5cf6, fields, footer: { text: "Hetzel's Workshop · Community Survey" }, timestamp: new Date().toISOString() }],
         }),
       });
       setStep(6);
@@ -626,20 +578,13 @@ function QuestionnaireSection() {
   return (
     <section id="questionnaire" className={`relative mx-auto max-w-2xl px-6 py-28 reveal-on-scroll ${BELOW_FOLD}`} style={SECTION_OFFSET}>
       <SectionLabel label={sv.sectionLabel} />
-      <h2 className="mt-4 font-display text-4xl font-semibold md:text-5xl">
-        {sv.heading}
-      </h2>
-      <p className="mt-3 text-muted-foreground">
-        {sv.description}
-      </p>
+      <h2 className="mt-4 font-display text-4xl font-semibold md:text-5xl">{sv.heading}</h2>
+      <p className="mt-3 text-muted-foreground">{sv.description}</p>
 
       <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-card/60 backdrop-blur">
         {step > 0 && step < 6 && (
           <div className="h-1 bg-secondary/60">
-            <div
-              className="h-1 transition-all duration-500"
-              style={{ width: `${progress}%`, background: "hsl(var(--accent))" }}
-            />
+            <div className="h-1 transition-all duration-500" style={{ width: `${progress}%`, background: "hsl(var(--accent))" }} />
           </div>
         )}
 
@@ -649,126 +594,38 @@ function QuestionnaireSection() {
               <div className="text-4xl">👋</div>
               <div>
                 <h3 className="font-display text-2xl font-semibold">{sv.introTitle}</h3>
-                <p className="mt-2 text-muted-foreground">
-                  {sv.introText}
-                </p>
+                <p className="mt-2 text-muted-foreground">{sv.introText}</p>
               </div>
-              <input
-                type="text"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                placeholder={sv.nicknamePlaceholder}
-                className="rounded-xl border border-border bg-secondary/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/20"
-              />
-              <button
-                onClick={() => setStep(1)}
-                className="self-start inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-3 text-sm font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-105"
-              >
-                {sv.start} <ArrowUpRight className="h-4 w-4" />
-              </button>
+              <input type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder={sv.nicknamePlaceholder} className="rounded-xl border border-border bg-secondary/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/20" />
+              <button onClick={() => setStep(1)} className="self-start inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-3 text-sm font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-105">{sv.start} <ArrowUpRight className="h-4 w-4" /></button>
             </div>
           )}
 
           {step >= 1 && step <= 5 && current && (
             <div className="flex flex-col gap-6">
               <div>
-                <div className="font-mono text-xs text-muted-foreground mb-2">
-                  {sv.questionOf.replace("{step}", String(step)).replace("{total}", String(QUESTIONS.length))}
-                </div>
+                <div className="font-mono text-xs text-muted-foreground mb-2">{sv.questionOf.replace("{step}", String(step)).replace("{total}", String(QUESTIONS.length))}</div>
                 <h3 className="font-display text-xl font-semibold leading-snug">{current.text}</h3>
               </div>
-
-              {current.type === "rating" && (
-                <StarRating
-                  value={Number(answers[current.id] ?? 0)}
-                  onChange={(v) => setAnswer(current.id, String(v))}
-                />
-              )}
-
+              {current.type === "rating" && <StarRating value={Number(answers[current.id] ?? 0)} onChange={(v) => setAnswer(current.id, String(v))} />}
               {current.type === "radio" && current.options && (
                 <div className="flex flex-col gap-2.5">
                   {current.options.map((opt) => {
                     const selected = answers[current.id] === opt;
                     return (
-                      <button
-                        key={opt}
-                        type="button"
-                        onClick={() => setAnswer(current.id, opt)}
-                        className="flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all"
-                        style={
-                          selected
-                            ? {
-                                borderColor: "hsl(var(--accent) / 0.8)",
-                                background: "hsl(var(--accent) / 0.1)",
-                                color: "hsl(var(--foreground))",
-                              }
-                            : {
-                                borderColor: "hsl(var(--border))",
-                                background: "hsl(var(--card) / 0.4)",
-                                color: "hsl(var(--muted-foreground))",
-                              }
-                        }
-                      >
-                        <span
-                          className="h-4 w-4 rounded-full border-2 shrink-0 transition-colors"
-                          style={{
-                            borderColor: selected ? "hsl(var(--accent))" : "hsl(var(--border))",
-                            background: selected ? "hsl(var(--accent))" : "transparent",
-                          }}
-                        />
+                      <button key={opt} type="button" onClick={() => setAnswer(current.id, opt)} className="flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all" style={selected ? { borderColor: "hsl(var(--accent) / 0.8)", background: "hsl(var(--accent) / 0.1)", color: "hsl(var(--foreground))" } : { borderColor: "hsl(var(--border))", background: "hsl(var(--card) / 0.4)", color: "hsl(var(--muted-foreground))" }}>
+                        <span className="h-4 w-4 rounded-full border-2 shrink-0 transition-colors" style={{ borderColor: selected ? "hsl(var(--accent))" : "hsl(var(--border))", background: selected ? "hsl(var(--accent))" : "transparent" }} />
                         <span className="text-sm">{opt}</span>
                       </button>
                     );
                   })}
                 </div>
               )}
-
-              {current.type === "textarea" && (
-                <textarea
-                  rows={5}
-                  value={answers[current.id] ?? ""}
-                  onChange={(e) => setAnswer(current.id, e.target.value)}
-                  placeholder={sv.typeSuggestion}
-                  className="rounded-xl border border-border bg-secondary/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/20"
-                />
-              )}
-
+              {current.type === "textarea" && <textarea rows={5} value={answers[current.id] ?? ""} onChange={(e) => setAnswer(current.id, e.target.value)} placeholder={sv.typeSuggestion} className="rounded-xl border border-border bg-secondary/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/20" />}
               <div className="flex items-center gap-3">
-                {step > 1 && (
-                  <button
-                    onClick={() => setStep((s) => s - 1)}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 px-5 py-2.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
-                  >
-                    {sv.back}
-                  </button>
-                )}
-                {step < QUESTIONS.length ? (
-                  <button
-                    onClick={() => setStep((s) => s + 1)}
-                    disabled={!canNext}
-                    className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-2.5 text-sm font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {sv.next}
-                  </button>
-                ) : (
-                  <button
-                    onClick={handleFinish}
-                    disabled={sending || !canNext}
-                    className="inline-flex items-center gap-2 rounded-full px-7 py-2.5 text-sm font-semibold text-background transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{ background: "hsl(var(--accent))" }}
-                  >
-                    {sending ? sv.submitting : sv.submit}
-                  </button>
-                )}
-
-                {!canNext && current.type !== "rating" && (
-                  <button
-                    onClick={() => step < QUESTIONS.length ? setStep((s) => s + 1) : handleFinish()}
-                    className="font-mono text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground"
-                  >
-                    {sv.skip}
-                  </button>
-                )}
+                {step > 1 && <button onClick={() => setStep((s) => s - 1)} className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 px-5 py-2.5 text-sm font-medium text-muted-foreground transition hover:text-foreground">{sv.back}</button>}
+                {step < QUESTIONS.length ? <button onClick={() => setStep((s) => s + 1)} disabled={!canNext} className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-2.5 text-sm font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">{sv.next}</button> : <button onClick={handleFinish} disabled={sending || !canNext} className="inline-flex items-center gap-2 rounded-full px-7 py-2.5 text-sm font-semibold text-background transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed" style={{ background: "hsl(var(--accent))" }}>{sending ? sv.submitting : sv.submit}</button>}
+                {!canNext && current.type !== "rating" && <button onClick={() => step < QUESTIONS.length ? setStep((s) => s + 1) : handleFinish()} className="font-mono text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground">{sv.skip}</button>}
               </div>
             </div>
           )}
@@ -777,16 +634,8 @@ function QuestionnaireSection() {
             <div className="flex flex-col items-center gap-4 text-center py-6">
               <div className="text-6xl animate-bounce">🎉</div>
               <h3 className="font-display text-2xl font-semibold">{sv.thanks.replace("{name}", nickname || "friend")}</h3>
-              <p className="text-muted-foreground max-w-sm">
-                {sv.successText}
-              </p>
-              <a
-                href="https://discord.gg/Mj9byBhusx"
-                target="_blank" rel="noreferrer noopener"
-                className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#5865F2]/90 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#5865F2] hover:scale-105"
-              >
-                {sv.joinDiscord}
-              </a>
+              <p className="text-muted-foreground max-w-sm">{sv.successText}</p>
+              <a href="https://discord.gg/Mj9byBhusx" target="_blank" rel="noreferrer noopener" className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#5865F2]/90 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#5865F2] hover:scale-105">{sv.joinDiscord}</a>
             </div>
           )}
         </div>
@@ -796,19 +645,6 @@ function QuestionnaireSection() {
 }
 
 // ── Section: Footer with Social Links ───────────────────────────────────
-
-/** Maps a social link label to its icon JSX */
-function SocialIcon({ label }: { label: string }) {
-  if (label === "Discord") return (
-    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.7 19.7 0 0 0 3.677 4.37.077.077 0 0 0 3.65 4.487c.72 10.795 5.098 16.793 9.3 17.773.5.084 1.002.084 1.501 0 4.203-.98 8.581-6.978 9.3-17.773.015-.12-.005-.243-.05-.36z" />
-    </svg>
-  );
-  if (label === "YouTube") return <Youtube className="h-5 w-5" />;
-  if (label === "Roblox")  return <Gamepad2 className="h-5 w-5" />;
-  if (label === "GitHub")  return <Github className="h-5 w-5" />;
-  return <Send className="h-5 w-5" />;
-}
 
 function FullFooter() {
   const { t } = useLanguage();
@@ -822,26 +658,17 @@ function FullFooter() {
               <Code2 className="h-5 w-5 text-accent" />
               Hetzel401
             </div>
-            <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-xs">
-              {f.brandDescription}
-            </p>
+            <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-xs">{f.brandDescription}</p>
             <div className="mt-5 flex flex-wrap gap-3">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target={s.href.startsWith("http") ? "_blank" : "_self"}
-                  rel="noreferrer noopener"
-                  title={s.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 transition-all hover:scale-110"
-                  style={{ color: s.color, borderColor: `${s.color}30` }}
-                >
-                  {s.icon}
+              {SOCIAL_LINKS.map((s) => (
+                <a key={s.label} href={s.href} target="_blank" rel="noreferrer noopener" title={s.label} className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 transition-all hover:scale-110">
+                  {s.label === "Discord" ? (
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.7 19.7 0 0 0 3.677 4.37.077.077 0 0 0 3.65 4.487c.72 10.795 5.098 16.793 9.3 17.773.5.084 1.002.084 1.501 0 4.203-.98 8.581-6.978 9.3-17.773.015-.12-.005-.243-.05-.36z" /></svg>
+                  ) : <Github className="h-5 w-5" />}
                 </a>
               ))}
             </div>
           </div>
-
           <div>
             <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-4">{f.statusTitle}</div>
             <div className="space-y-3">
@@ -852,22 +679,15 @@ function FullFooter() {
                 </div>
               ))}
             </div>
-
             <div className="mt-6 rounded-xl border border-accent/20 bg-accent/5 p-4">
               <div className="font-mono text-xs text-muted-foreground mb-1">{f.contactTitle}</div>
-              <a href="mailto:universemax401@gmail.com" className="font-mono text-sm text-accent hover:underline">
-                universemax401@gmail.com
-              </a>
+              <a href="mailto:universemax401@gmail.com" className="font-mono text-sm text-accent hover:underline">universemax401@gmail.com</a>
             </div>
           </div>
         </div>
-
         <div className="mt-12 border-t border-border/60 pt-8 flex flex-col items-center justify-between gap-3 font-mono text-xs text-muted-foreground md:flex-row">
           <span>© {new Date().getFullYear()} Hetzel401 · {f.builtWith}</span>
-          <span className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-            {f.allOperational}
-          </span>
+          <span className="flex items-center gap-2"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />{f.allOperational}</span>
         </div>
       </div>
     </footer>

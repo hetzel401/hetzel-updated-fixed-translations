@@ -40,6 +40,7 @@ export const translations = {
       heading:      "Hey, I'm",
       bio1: "I'm a server designer, web developer, and Discord bot developer. I love making visual designs with clean code — high tier systems & polished interfaces, and bots that feel considered down to the last detail.",
       bio2: "Right now I'm focused on creating more advanced Discord bots for my servers, fun games and custom tooling for communities — things that stay out of the way and just feel good to use.",
+      badges: ["Developer", "Designer", "Student"],
       stats: {
         yearsExp: "Years Exp.",
         ideas:    "Ideas",
@@ -140,16 +141,19 @@ export const translations = {
           quote:  "Hetzel built us a bot that completely transformed how our server runs. Super fast turnaround and actually listened to what we needed.",
           author: "MIAQ",
           role:   "Server Owner",
+          stars:  5,
         },
         {
           quote:  "Great bots — especially for tickets and carries. And an awesome server with cool people and a genuinely great community.",
           author: "nightshade",
           role:   "Executive @ Hetzel's Workshop",
+          stars:  5,
         },
         {
           quote:  "Really impressed by the attention to detail. Every feature was thought through properly and the bot has been running flawlessly for months.",
           author: "badgy",
           role:   "Head of Administration @ Hetzel's Workshop",
+          stars:  5,
         },
       ],
     },
@@ -316,6 +320,7 @@ export const translations = {
       heading:      "Hola, soy",
       bio1: "Soy diseñador de servidores, desarrollador web y desarrollador de bots para Discord. Me encanta crear diseños visuales con código limpio — sistemas de alto nivel, interfaces pulidas y bots que se sienten cuidados hasta el último detalle.",
       bio2: "Ahora mismo me centro en crear bots de Discord más avanzados para mis servidores, juegos divertidos y herramientas personalizadas para comunidades — cosas que no estorban y simplemente se sienten bien al usar.",
+      badges: ["Desarrollador", "Diseñador", "Estudiante"],
       stats: {
         yearsExp: "Años de exp.",
         ideas:    "Ideas",
@@ -360,9 +365,9 @@ export const translations = {
       sectionLabel: "TESTIMONIOS",
       heading:      "Lo que dicen.",
       items: [
-        { quote: "Hetzel nos construyó un bot que transformó por completo cómo funciona nuestro servidor.", author: "Dueño de servidor", role: "Administrador" },
-        { quote: "El servidor que diseñó para nosotros se ve increíblemente limpio.", author: "Líder de comunidad", role: "Admin del servidor" },
-        { quote: "El bot ha estado funcionando perfectamente durante meses.", author: "Miembro del Workshop", role: "Usuario regular" },
+        { quote: "Hetzel nos construyó un bot que transformó por completo cómo funciona nuestro servidor.", author: "Dueño de servidor", role: "Administrador", stars: 5 },
+        { quote: "El servidor que diseñó para nosotros se ve increíblemente limpio.", author: "Líder de comunidad", role: "Admin del servidor", stars: 5 },
+        { quote: "El bot ha estado funcionando perfectamente durante meses.", author: "Miembro del Workshop", role: "Usuario regular", stars: 5 },
       ],
     },
     faq: {
@@ -434,6 +439,7 @@ export const translations = {
       heading:      "Salut, je suis",
       bio1: "Je suis designer de serveurs, développeur web et développeur de bots Discord. J'adore créer des designs visuels avec du code propre — systèmes haut de gamme et interfaces soignées.",
       bio2: "En ce moment, je me concentre sur la création de bots Discord plus avancés, de jeux amusants et d'outils personnalisés pour des communautés.",
+      badges: ["Développeur", "Designer", "Étudiant"],
       stats: {
         yearsExp: "Ans d'exp.",
         ideas:    "Idées",
@@ -478,9 +484,9 @@ export const translations = {
       sectionLabel: "TÉMOIGNAGES",
       heading:      "Ce qu'ils disent.",
       items: [
-        { quote: "Hetzel a construit un bot qui a complètement transformé notre serveur.", author: "Propriétaire de serveur", role: "Gestionnaire de communauté" },
-        { quote: "Le serveur qu'il a conçu pour nous est incroyablement propre.", author: "Leader de communauté", role: "Admin du serveur" },
-        { quote: "Le bot fonctionne parfaitement depuis des mois.", author: "Membre du Workshop", role: "Utilisateur régulier" },
+        { quote: "Hetzel a construit un bot qui a complètement transformé notre serveur.", author: "Propriétaire de serveur", role: "Gestionnaire de communauté", stars: 5 },
+        { quote: "Le serveur qu'il a conçu pour nous est incroyablement propre.", author: "Leader de communauté", role: "Admin du serveur", stars: 5 },
+        { quote: "Le bot fonctionne parfaitement depuis des mois.", author: "Membre du Workshop", role: "Utilisateur régulier", stars: 5 },
       ],
     },
     faq: {
@@ -552,6 +558,7 @@ export const translations = {
       heading:      "Hey, ich bin",
       bio1: "Ich bin Server-Designer, Webentwickler und Discord-Bot-Entwickler. Ich liebe visuelle Designs mit sauberem Code.",
       bio2: "Derzeit konzentriere ich mich auf fortgeschrittenere Discord-Bots und Web-Tools für Communities.",
+      badges: ["Entwickler", "Designer", "Student"],
       stats: {
         yearsExp: "Jahre Erfahrung",
         ideas:    "Ideen",
@@ -596,9 +603,9 @@ export const translations = {
       sectionLabel: "REFERENZEN",
       heading:      "Was andere sagen.",
       items: [
-        { quote: "Hetzel hat einen Bot gebaut, der unseren Server komplett verändert hat.", author: "Server-Besitzer", role: "Community-Manager" },
-        { quote: "Das Server-Design sieht unglaublich sauber aus.", author: "Community-Leiter", role: "Server-Admin" },
-        { quote: "Der Bot läuft seit Monaten einwandfrei.", author: "Workshop-Mitglied", role: "Regelmäßiger Nutzer" },
+        { quote: "Hetzel hat einen Bot gebaut, der unseren Server komplett verändert hat.", author: "Server-Besitzer", role: "Community-Manager", stars: 5 },
+        { quote: "Das Server-Design sieht unglaublich sauber aus.", author: "Community-Leiter", role: "Server-Admin", stars: 5 },
+        { quote: "Der Bot läuft seit Monaten einwandfrei.", author: "Workshop-Mitglied", role: "Regelmäßiger Nutzer", stars: 5 },
       ],
     },
     faq: {
@@ -670,9 +677,10 @@ export const translations = {
       heading:      "Oi, eu sou",
       bio1: "Sou designer de servidores, desenvolvedor web e desenvolvedor de bots para Discord. Adoro criar designs visuais com código limpo.",
       bio2: "No momento, estou focado em criar bots Discord mais avançados e ferramentas personalizadas para comunidades.",
+      badges: ["Desenvolvedor", "Designer", "Estudante"],
       stats: {
         yearsExp: "Anos de exp.",
-        ideas:    "Ideias",
+        ideas:    "Ideas",
         servers:  "Servidores",
         members:  "Membros",
       },
@@ -714,9 +722,9 @@ export const translations = {
       sectionLabel: "DEPOIMENTOS",
       heading:      "O que dizem.",
       items: [
-        { quote: "Hetzel criou um bot que transformou completamente nosso servidor.", author: "Dono de servidor", role: "Gerente de comunidade" },
-        { quote: "O design do servidor que ele criou está incrivelmente limpo.", author: "Líder de comunidade", role: "Admin do servidor" },
-        { quote: "O bot funciona perfeitamente há meses.", author: "Membro do Workshop", role: "Usuário regular" },
+        { quote: "Hetzel criou um bot que transformou completamente nosso servidor.", author: "Dono de servidor", role: "Gerente de comunidade", stars: 5 },
+        { quote: "O design do servidor que ele criou está incrivelmente limpo.", author: "Líder de comunidade", role: "Admin do servidor", stars: 5 },
+        { quote: "O bot funciona perfeitamente há meses.", author: "Membro do Workshop", role: "Usuário regular", stars: 5 },
       ],
     },
     faq: {
@@ -788,6 +796,7 @@ export const translations = {
       heading:      "こんにちは、",
       bio1: "サーバーデザイナー、ウェブ開発者、Discordボット開発者です。クリーンなコードで視覚的なデザインを作ることが大好きです。",
       bio2: "現在は、より高度なDiscordボットやコミュニティ向けのツールの作成に注力しています。",
+      badges: ["開発者", "デザイナー", "学生"],
       stats: {
         yearsExp: "年の経験",
         ideas:    "アイデア",
@@ -832,9 +841,9 @@ export const translations = {
       sectionLabel: "口コミ",
       heading:      "みんなの声。",
       items: [
-        { quote: "Hetzelはサーバーを完全に変えるボットを作ってくれました。", author: "サーバーオーナー", role: "コミュニティマネージャー" },
-        { quote: "デザインされたサーバーは信じられないほど整然としています。", author: "コミュニティリーダー", role: "サーバー管理者" },
-        { quote: "ボットは数ヶ月間完璧に動作しています。", author: "Workshopメンバー", role: "一般ユーザー" },
+        { quote: "Hetzelはサーバーを完全に変えるボットを作ってくれました。", author: "サーバーオーナー", role: "コミュニティマネージャー", stars: 5 },
+        { quote: "デザインされたサーバーは信じられないほど整然としています。", author: "コミュニティリーダー", role: "サーバー管理者", stars: 5 },
+        { quote: "ボットは数ヶ月間完璧に動作しています。", author: "Workshopメンバー", role: "一般ユーザー", stars: 5 },
       ],
     },
     faq: {
