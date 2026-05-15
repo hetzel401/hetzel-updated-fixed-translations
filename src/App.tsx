@@ -4,6 +4,9 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { CustomizationProvider } from "@/context/CustomizationContext";
 import { LanyardProvider } from "@/context/LanyardContext";
 import Index from "@/pages/Index";
+import AboutPage from "@/pages/AboutPage";
+import WorkPage from "@/pages/WorkPage";
+import ContactPage from "@/pages/ContactPage";
 import DashboardPage from "@/pages/DashboardPage";
 import NotFound from "@/pages/not-found";
 import CustomCursor from "@/components/CustomCursor";
@@ -25,6 +28,9 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Index} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/work" component={WorkPage} />
+      <Route path="/contact" component={ContactPage} />
       <Route path="/admin" component={DashboardPage} />
       <Route component={NotFound} />
     </Switch>

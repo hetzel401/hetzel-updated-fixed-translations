@@ -41,14 +41,9 @@ const Nav = () => {
 
   const links = [
     { href: "/",        label: t.nav.home    },
-  ];
-
-  // Anchor links shown only on homepage
-  const anchorLinks = [
-    { href: "#about",    label: t.nav.about    },
-    { href: "#journey",  label: t.nav.timeline },
-    { href: "#products", label: t.nav.work     },
-    { href: "#contact",  label: t.nav.contact  },
+    { href: "/about",   label: t.nav.about   },
+    { href: "/work",    label: t.nav.work    },
+    { href: "/contact", label: t.nav.contact },
   ];
 
   const isHome = loc === "/" || loc === "";
@@ -102,7 +97,8 @@ const Nav = () => {
             </li>
           ))}
           {/* Social icons */}
-          {isHome && socialLinks.map((s) => {
+          <li className="mx-1 h-4 w-px bg-border" />
+          {socialLinks.map((s) => {
             const Icon = s.icon;
             return (
               <li key={s.label}>
@@ -118,14 +114,6 @@ const Nav = () => {
               </li>
             );
           })}
-          {/* Separator */}
-          {isHome && <li className="mx-1 h-4 w-px bg-border" />}
-          {/* Anchor links on homepage */}
-          {isHome && anchorLinks.map((l) => (
-            <li key={l.href}>
-              <a href={l.href} onClick={(e) => handleAnchorClick(e, l.href)} className={linkClass(l.href, "pill")}>{l.label}</a>
-            </li>
-          ))}
         </ul>
 
         {/* Mobile toggle */}
@@ -198,29 +186,19 @@ const Nav = () => {
                 <Link href={l.href} className={linkClass(l.href, "row")}>{l.label}</Link>
               </li>
             ))}
-            {isHome && (
-              <>
-                <li className="my-1 h-px bg-border mx-2" />
-                {anchorLinks.map((l) => (
-                  <li key={l.href}>
-                    <a href={l.href} onClick={(e) => handleAnchorClick(e, l.href)} className={linkClass(l.href, "row")}>{l.label}</a>
-                  </li>
-                ))}
-                <li className="my-1 h-px bg-border mx-2" />
-                <li className="px-3 py-2">
-                  <div className="flex items-center gap-3">
-                    {socialLinks.map((s) => {
-                      const Icon = s.icon;
-                      return (
-                        <a key={s.label} href={s.href} target="_blank" rel="noreferrer noopener" title={s.label} style={{ color: s.color }}>
-                          <Icon className="h-5 w-5" />
-                        </a>
-                      );
-                    })}
-                  </div>
-                </li>
-              </>
-            )}
+            <li className="my-1 h-px bg-border mx-2" />
+            <li className="px-3 py-2">
+              <div className="flex items-center gap-3">
+                {socialLinks.map((s) => {
+                  const Icon = s.icon;
+                  return (
+                    <a key={s.label} href={s.href} target="_blank" rel="noreferrer noopener" title={s.label} style={{ color: s.color }}>
+                      <Icon className="h-5 w-5" />
+                    </a>
+                  );
+                })}
+              </div>
+            </li>
             <li className="my-1 h-px bg-border mx-2" />
             <li>
               <div className="px-3 py-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">Language</div>

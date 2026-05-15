@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { CheckCircle, ChevronRight, ChevronLeft, Send, Loader2, Trophy } from "lucide-react";
-
-const WEBHOOK_URL =
-  "https://discord.com/api/webhooks/1504718321537515620/d_T7GNMD1lUZRjTkuxTmt4uPA_4dLv-nEBDmdK9-quG6o650EXCUhctaTuQwEFtWvpcw";
+import { DISCORD_WEBHOOK } from "@/lib/site-constants";
 
 interface Question {
   id: number;
@@ -169,7 +167,7 @@ export default function Questionnaire() {
     setStatus("sending");
     try {
       const payload = buildEmbed(answers);
-      const res = await fetch(WEBHOOK_URL, {
+      const res = await fetch(DISCORD_WEBHOOK, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
