@@ -1,7 +1,7 @@
 import React from "react";
 import { SectionLabel } from "@/components/SectionLabel";
 import { useLanguage } from "@/context/LanguageContext";
-import { ArrowUpRight, Bot, Users, Swords, Wrench } from "lucide-react";
+import { ArrowUpRight, Bot, Users, Globe, Wrench } from "lucide-react";
 
 export default function FeaturedProductsSection() {
   const { t } = useLanguage();
@@ -9,7 +9,7 @@ export default function FeaturedProductsSection() {
   const productMeta = [
     { icon: Users, href: "https://discord.gg/Mj9byBhusx", gradient: "from-[#5865F2]/20 via-transparent to-transparent" },
     { icon: Bot, href: "#contact", gradient: "from-accent/20 via-transparent to-transparent" },
-    { icon: Swords, href: "#contact", gradient: "from-[#f59e0b]/20 via-transparent to-transparent" },
+    { icon: Globe, href: "#contact", gradient: "from-[#3b82f6]/20 via-transparent to-transparent" },
     { icon: Wrench, href: "#contact", gradient: "from-[#34d399]/20 via-transparent to-transparent" },
   ];
 

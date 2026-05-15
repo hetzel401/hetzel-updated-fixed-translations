@@ -2,6 +2,7 @@ import React from "react";
 import { Clock as LucideClock, ShieldCheck, Activity } from "lucide-react";
 import { useLanyardContext } from "@/context/LanyardContext";
 import { useCustomization } from "@/context/CustomizationContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 const STATUS_COLOR: Record<string, string> = {
   online: "bg-emerald-400",
@@ -13,12 +14,15 @@ const STATUS_COLOR: Record<string, string> = {
 export default function StatusBanner() {
   const { data: presence } = useLanyardContext();
   const { config } = useCustomization();
+  const { t } = useLanguage();
   
   if (!presence || !config.statusBannerVisible) return null;
 
   const user = presence.discord_user;
   const status = presence.discord_status;
   const activity = presence.activities?.find(a => a.type !== 4); // Find non-custom status activity
+
+  const statusLabel = (t.widgets.status as any)[status] || status;
 
   return (
     <div className="fixed bottom-6 left-6 z-50 max-w-sm animate-fade-up">
@@ -43,7 +47,7 @@ export default function StatusBanner() {
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
             </div>
             <p className="truncate font-mono text-[10px] text-muted-foreground">
-              {activity ? activity.name : `Currently ${status}`}
+              {activity ? activity.name : `${t.widgets.status.currently} ${statusLabel}`}
             </p>
           </div>
         </div>
@@ -52,7 +56,7 @@ export default function StatusBanner() {
           <div className="mt-3 flex items-center gap-2 rounded-lg bg-secondary/40 px-2.5 py-1.5">
             <Activity className="h-3 w-3 text-accent" />
             <span className="truncate font-mono text-[10px] text-muted-foreground">
-              {activity.details || activity.state || "Active now"}
+              {activity.details || activity.state || t.widgets.status.activeNow}
             </span>
           </div>
         )}

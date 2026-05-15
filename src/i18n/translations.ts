@@ -226,7 +226,7 @@ export const translations = {
       items: [
         { name: "Hetzel's Workshop Discord", description: "A welcoming community server for gaming, bots, and fun. Over 1,500+ members strong with active channels and events.", badge: "Community", tags: ["Discord", "1500+ Members", "Active"] },
         { name: "Custom Discord Bots", description: "Fully tailored bots built from scratch — moderation, games, economy systems, reaction roles, levelling, and much more.", badge: "Service", tags: ["Node.js", "discord.js", "Custom"] },
-        { name: "EFT Community Tools", description: "Tools, guides, and resources for Escape from Tarkov players and community members — all crafted with passion.", badge: "Gaming", tags: ["EFT", "Gaming", "Tools"] },
+        { name: "Web Development", description: "Clean, fast, and responsive websites built with modern technologies like React and Tailwind CSS.", badge: "Service", tags: ["React", "Vite", "Tailwind"] },
         { name: "Server Design Service", description: "End-to-end Discord server setup — channels, roles, bots, branding, and onboarding flows. Polished and professional.", badge: "Service", tags: ["Setup", "Design", "Branding"] },
       ],
     },
@@ -291,6 +291,20 @@ export const translations = {
     widgets: {
       clock: {
         title: "Local Time",
+      },
+      nowPlaying: {
+        label: "Now Playing",
+        activeNow: "Active Now",
+        verified: "Verified",
+      },
+      status: {
+        online: "Online",
+        idle: "Away",
+        dnd: "Busy",
+        offline: "Offline",
+        activeNow: "Active Now",
+        verified: "Verified",
+        currently: "Currently",
       }
     },
   },
@@ -415,6 +429,20 @@ export const translations = {
     widgets: {
       clock: {
         title: "Hora Local",
+      },
+      nowPlaying: {
+        label: "Reproduciendo",
+        activeNow: "Activo ahora",
+        verified: "Verificado",
+      },
+      status: {
+        online: "En línea",
+        idle: "Ausente",
+        dnd: "Ocupado",
+        offline: "Desconectado",
+        activeNow: "Activo ahora",
+        verified: "Verificado",
+        currently: "Actualmente",
       }
     },
   },
@@ -539,6 +567,20 @@ export const translations = {
     widgets: {
       clock: {
         title: "Heure Locale",
+      },
+      nowPlaying: {
+        label: "En cours",
+        activeNow: "Actif maintenant",
+        verified: "Vérifié",
+      },
+      status: {
+        online: "En ligne",
+        idle: "Absent",
+        dnd: "Occupé",
+        offline: "Hors ligne",
+        activeNow: "Actif maintenant",
+        verified: "Vérifié",
+        currently: "Actuellement",
       }
     },
   },
@@ -663,6 +705,20 @@ export const translations = {
     widgets: {
       clock: {
         title: "Ortszeit",
+      },
+      nowPlaying: {
+        label: "Läuft gerade",
+        activeNow: "Jetzt aktiv",
+        verified: "Verifiziert",
+      },
+      status: {
+        online: "Online",
+        idle: "Abwesend",
+        dnd: "Bitte nicht stören",
+        offline: "Offline",
+        activeNow: "Jetzt aktiv",
+        verified: "Verifiziert",
+        currently: "Aktuell",
       }
     },
   },
@@ -722,7 +778,7 @@ export const translations = {
       upcoming:     "EM BREVE",
       projects: [
         { name: "Minha conta Roblox",                blurb: "Minha conta Roblox.",                                                           cta: "Visitar" },
-        { name: "Grupo Roblox de Hetzel's Workshop",  blurb: "Um grupo Roblox para meus amigos e eu!",                                       cta: "Visualizar" },
+        { name: "Grupo Roblox de Hetzel's Workshop",  blurb: "Um grupo Roblox para mes amigos e eu!",                                       cta: "Visualizar" },
         { name: "Hetzel's Workshop!",                blurb: "Meu canto na web — um servidor para diversão, trabalho e fazer amigos.",         cta: "Ver site" },
       ],
     },
@@ -787,6 +843,20 @@ export const translations = {
     widgets: {
       clock: {
         title: "Hora Local",
+      },
+      nowPlaying: {
+        label: "Ouvindo agora",
+        activeNow: "Ativo agora",
+        verified: "Verificado",
+      },
+      status: {
+        online: "Online",
+        idle: "Ausente",
+        dnd: "Não perturbe",
+        offline: "Offline",
+        activeNow: "Ativo agora",
+        verified: "Verificado",
+        currently: "Atualmente",
       }
     },
   },
@@ -911,6 +981,20 @@ export const translations = {
     widgets: {
       clock: {
         title: "現地時間",
+      },
+      nowPlaying: {
+        label: "再生中",
+        activeNow: "現在アクティブ",
+        verified: "認証済み",
+      },
+      status: {
+        online: "オンライン",
+        idle: "離席中",
+        dnd: "取り込み中",
+        offline: "オフライン",
+        activeNow: "現在アクティブ",
+        verified: "認証済み",
+        currently: "現在",
       }
     },
   },
