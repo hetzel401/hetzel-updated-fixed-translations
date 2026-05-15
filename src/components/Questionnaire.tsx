@@ -1,54 +1,16 @@
 import { useState } from "react";
 import { CheckCircle, ChevronRight, ChevronLeft, Send, Loader2, Trophy } from "lucide-react";
 import { DISCORD_WEBHOOK } from "@/lib/site-constants";
-
-interface Question {
-  id: number;
-  text: string;
-  type: "radio" | "textarea" | "rating";
-  options?: string[];
-}
-
-const QUESTIONS: Question[] = [
-  {
-    id: 1,
-    text: "What do you think of Hetzel's Workshop overall?",
-    type: "radio",
-    options: ["🔥 Amazing — love everything about it", "😊 Pretty good, has some great stuff", "🙂 It's decent, room to grow", "🤔 Not sure yet, still exploring", "😕 Could use a lot of improvement"],
-  },
-  {
-    id: 2,
-    text: "Which of my projects do you like the most?",
-    type: "radio",
-    options: ["🏗️ Hetzel's Workshop (the community)", "🤖 My Discord bots", "🎮 My EFT-related work", "💻 My web development projects", "⚡ I like all of them equally!"],
-  },
-  {
-    id: 3,
-    text: "What feature or improvement would you most like to see added to my Discord bots?",
-    type: "radio",
-    options: ["🎮 More fun mini-games", "📊 Better economy & leveling systems", "🛡️ Improved moderation tools", "🎵 Music & voice features", "🔧 Custom automation & utility commands"],
-  },
-  {
-    id: 4,
-    text: "What do you think is the best part of Hetzel's Workshop?",
-    type: "radio",
-    options: ["👥 The community & people", "🎨 The design & aesthetics", "🤖 The bots & automation", "🎯 The events & activities", "📝 The content & updates"],
-  },
-  {
-    id: 5,
-    text: "What suggestions do you have to help me improve my projects and community?",
-    type: "textarea",
-  },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 type Answers = Record<number, string>;
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
-function buildEmbed(answers: Answers) {
-  const fields = QUESTIONS.map((q) => ({
-    name: `${q.id}. ${q.text}`,
-    value: answers[q.id] || "*No answer provided*",
+function buildEmbed(answers: Answers, questions: any[]) {
+  const fields = questions.map((q, i) => ({
+    name: `${i + 1}. ${q.text}`,
+    value: answers[i + 1] || "*No answer provided*",
     inline: false,
   }));
 
@@ -142,19 +104,23 @@ function OptionBtn({
 // ── Main ───────────────────────────────────────────────────────────────────
 
 export default function Questionnaire() {
+  const { t } = useLanguage();
+  const s = t.survey;
+  const questions = s.questions;
+  
   const [step, setStep]     = useState(0); // 0 = intro
   const [answers, setAnswers] = useState<Answers>({});
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
   const isIntro = step === 0;
-  const isDone  = step > QUESTIONS.length;
-  const q       = QUESTIONS[step - 1];
+  const isDone  = step > questions.length;
+  const q       = questions[step - 1];
 
-  const canAdvance = isIntro || (q?.type === "textarea" ? true : !!answers[q?.id]);
+  const canAdvance = isIntro || (q?.placeholder ? true : !!answers[step]);
 
   const next = () => {
-    if (step < QUESTIONS.length) {
+    if (step < questions.length) {
       setStep((s) => s + 1);
     } else {
       submit();
@@ -166,7 +132,7 @@ export default function Questionnaire() {
   const submit = async () => {
     setStatus("sending");
     try {
-      const payload = buildEmbed(answers);
+      const payload = buildEmbed(answers, questions);
       const res = await fetch(DISCORD_WEBHOOK, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -174,7 +140,7 @@ export default function Questionnaire() {
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setStatus("done");
-      setStep(QUESTIONS.length + 1);
+      setStep(questions.length + 1);
     } catch (e) {
       setStatus("error");
       setErrorMsg(e instanceof Error ? e.message : "Unknown error");
@@ -192,13 +158,13 @@ export default function Questionnaire() {
           <Trophy className="h-8 w-8" style={{ color: "hsl(var(--accent))" }} />
         </div>
         <div>
-          <h3 className="font-display text-2xl font-semibold">Quick Questionnaire</h3>
+          <h3 className="font-display text-2xl font-semibold">{s.introTitle}</h3>
           <p className="mt-2 text-sm text-muted-foreground max-w-sm">
-            5 short questions about Hetzel's Workshop. Takes about 60 seconds and helps me improve everything I build.
+            {s.introText}
           </p>
         </div>
         <div className="flex flex-wrap gap-3 justify-center">
-          {["📋 5 questions", "⏱ ~60 seconds", "🔒 Anonymous"].map((chip) => (
+          {s.chips.map((chip: string) => (
             <span
               key={chip}
               className="rounded-full border border-border bg-secondary/40 px-3 py-1 font-mono text-xs text-muted-foreground"
@@ -211,7 +177,7 @@ export default function Questionnaire() {
           onClick={() => setStep(1)}
           className="inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
         >
-          Start Survey <ChevronRight className="h-4 w-4" />
+          {s.start} <ChevronRight className="h-4 w-4" />
         </button>
       </div>
     );
@@ -228,9 +194,9 @@ export default function Questionnaire() {
           <CheckCircle className="h-8 w-8 text-emerald-400" />
         </div>
         <div>
-          <h3 className="font-display text-2xl font-semibold">Thanks so much! 🎉</h3>
+          <h3 className="font-display text-2xl font-semibold">{s.thanks}</h3>
           <p className="mt-2 text-sm text-muted-foreground max-w-sm">
-            Your feedback has been sent straight to my Discord. I read every response and use it to make Hetzel's Workshop better.
+            {s.successText}
           </p>
         </div>
         <button
@@ -241,7 +207,7 @@ export default function Questionnaire() {
           }}
           className="rounded-full border border-border bg-secondary/40 px-6 py-2.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
         >
-          Take it again
+          {s.takeAgain}
         </button>
       </div>
     );
@@ -250,35 +216,35 @@ export default function Questionnaire() {
   // ── Question step ─────────────────────────────────────────────────────────
   return (
     <div className="flex flex-col gap-5">
-      <ProgressBar step={step} total={QUESTIONS.length} />
+      <ProgressBar step={step} total={questions.length} />
 
       <div>
         <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-2">
-          Question {step} of {QUESTIONS.length}
+          {s.questionOf.replace("{step}", String(step)).replace("{total}", String(questions.length))}
         </p>
         <h3 className="font-display text-lg font-semibold leading-snug">{q.text}</h3>
       </div>
 
       {/* Options */}
-      {q.type === "radio" && (
+      {q.options && (
         <div className="flex flex-col gap-2">
-          {q.options?.map((opt) => (
+          {q.options.map((opt: string) => (
             <OptionBtn
               key={opt}
               label={opt}
-              selected={answers[q.id] === opt}
-              onClick={() => setAnswers((a) => ({ ...a, [q.id]: opt }))}
+              selected={answers[step] === opt}
+              onClick={() => setAnswers((a) => ({ ...a, [step]: opt }))}
             />
           ))}
         </div>
       )}
 
-      {q.type === "textarea" && (
+      {q.placeholder && (
         <textarea
           rows={4}
-          placeholder="Share your thoughts — any feedback is welcome!"
-          value={answers[q.id] ?? ""}
-          onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))}
+          placeholder={q.placeholder}
+          value={answers[step] ?? ""}
+          onChange={(e) => setAnswers((a) => ({ ...a, [step]: e.target.value }))}
           className="w-full rounded-xl border px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none resize-none"
           style={{
             background: "hsl(var(--secondary) / 0.4)",
@@ -290,7 +256,7 @@ export default function Questionnaire() {
       {/* Error */}
       {status === "error" && (
         <p className="font-mono text-xs text-rose-400">
-          ⚠ Failed to send: {errorMsg}. Please try again.
+          ⚠ {s.error.replace("{error}", errorMsg)}
         </p>
       )}
 
@@ -300,7 +266,7 @@ export default function Questionnaire() {
           onClick={prev}
           className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/30 px-4 py-2 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
         >
-          <ChevronLeft className="h-3.5 w-3.5" /> Back
+          <ChevronLeft className="h-3.5 w-3.5" /> {s.back}
         </button>
 
         <button
@@ -310,11 +276,11 @@ export default function Questionnaire() {
           style={{ background: canAdvance ? "hsl(var(--accent))" : "hsl(var(--muted))" }}
         >
           {status === "sending" ? (
-            <><Loader2 className="h-4 w-4 animate-spin" /> Sending…</>
-          ) : step === QUESTIONS.length ? (
-            <><Send className="h-4 w-4" /> Submit</>
+            <><Loader2 className="h-4 w-4 animate-spin" /> {s.submitting}</>
+          ) : step === questions.length ? (
+            <><Send className="h-4 w-4" /> {s.submit}</>
           ) : (
-            <>Next <ChevronRight className="h-4 w-4" /></>
+            <>{s.next} <ChevronRight className="h-4 w-4" /></>
           )}
         </button>
       </div>
