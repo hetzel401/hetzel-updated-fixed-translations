@@ -1,6 +1,13 @@
 # Hetzel's Workshop — Portfolio Site
 A single-page React portfolio with a live Discord presence widget, custom cursor, theme presets, scroll-reveal animations,
 i18n support, and a full settings panel.
+
+## Recent fixes (2026-05-15)
+
+- Fixed build error caused by a missing export (`communityStatValues`) used by `src/pages/Index.tsx`.
+- Added and configured the Discord contact webhook in `src/lib/site-constants.ts`.
+- Pushed fixes to both remotes; if your Vercel deployment failed previously, trigger a redeploy now — the build error is resolved.
+
 ## Tech Stack
 | Layer        | Tool                                                   |
 | ------------ | ------------------------------------------------------ |
