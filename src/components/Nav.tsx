@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Code2, Globe, Menu, X, ClipboardList, Youtube, Github, Gamepad2 } from "lucide-react";
+import { Code2, Globe, Menu, X, ClipboardList, Youtube, Github, Gamepad2, BookOpen } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useLanguage } from "@/context/LanguageContext";
 import { useLanyardContext } from "@/context/LanyardContext";
@@ -41,6 +41,10 @@ const Nav = () => {
 
   const links = [
     { href: "/",        label: t.nav.home    },
+    { href: "/about",   label: t.nav.about   },
+    { href: "/work",    label: t.nav.work    },
+    { href: "/blog",    label: t.nav.blog    },
+    { href: "/contact", label: t.nav.contact },
   ];
 
   // Anchor links shown only on homepage
@@ -84,7 +88,7 @@ const Nav = () => {
   };
 
   return (
-    <header className="fixed left-1/2 top-4 z-50 w-full max-w-4xl -translate-x-1/2 px-4">
+    <header className="fixed left-1/2 top-4 z-50 w-full max-w-5xl -translate-x-1/2 px-4">
       <nav className="glass flex items-center gap-2 rounded-full px-3 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
         <Link
           href="/"
@@ -118,14 +122,6 @@ const Nav = () => {
               </li>
             );
           })}
-          {/* Separator */}
-          {isHome && <li className="mx-1 h-4 w-px bg-border" />}
-          {/* Anchor links on homepage */}
-          {isHome && anchorLinks.map((l) => (
-            <li key={l.href}>
-              <a href={l.href} onClick={(e) => handleAnchorClick(e, l.href)} className={linkClass(l.href, "pill")}>{l.label}</a>
-            </li>
-          ))}
         </ul>
 
         {/* Mobile toggle */}
@@ -198,29 +194,6 @@ const Nav = () => {
                 <Link href={l.href} className={linkClass(l.href, "row")}>{l.label}</Link>
               </li>
             ))}
-            {isHome && (
-              <>
-                <li className="my-1 h-px bg-border mx-2" />
-                {anchorLinks.map((l) => (
-                  <li key={l.href}>
-                    <a href={l.href} onClick={(e) => handleAnchorClick(e, l.href)} className={linkClass(l.href, "row")}>{l.label}</a>
-                  </li>
-                ))}
-                <li className="my-1 h-px bg-border mx-2" />
-                <li className="px-3 py-2">
-                  <div className="flex items-center gap-3">
-                    {socialLinks.map((s) => {
-                      const Icon = s.icon;
-                      return (
-                        <a key={s.label} href={s.href} target="_blank" rel="noreferrer noopener" title={s.label} style={{ color: s.color }}>
-                          <Icon className="h-5 w-5" />
-                        </a>
-                      );
-                    })}
-                  </div>
-                </li>
-              </>
-            )}
             <li className="my-1 h-px bg-border mx-2" />
             <li>
               <div className="px-3 py-1 font-mono text-xs uppercase tracking-widest text-muted-foreground">Language</div>
