@@ -5,11 +5,6 @@ import { CustomizationProvider } from "@/context/CustomizationContext";
 import { LanyardProvider } from "@/context/LanyardContext";
 import Index from "@/pages/Index";
 import DashboardPage from "@/pages/DashboardPage";
-import AboutPage from "@/pages/AboutPage";
-import WorkPage from "@/pages/WorkPage";
-import ContactPage from "@/pages/ContactPage";
-import BlogPage from "@/pages/BlogPage";
-import BlogPostPage from "@/pages/BlogPostPage";
 import NotFound from "@/pages/not-found";
 import CustomCursor from "@/components/CustomCursor";
 import BackgroundManager from "@/components/BackgroundManager";
@@ -30,11 +25,6 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Index} />
-      <Route path="/about" component={AboutPage} />
-      <Route path="/work" component={WorkPage} />
-      <Route path="/contact" component={ContactPage} />
-      <Route path="/blog" component={BlogPage} />
-      <Route path="/blog/:slug" component={BlogPostPage} />
       <Route path="/admin" component={DashboardPage} />
       <Route component={NotFound} />
     </Switch>

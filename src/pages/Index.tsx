@@ -7,13 +7,12 @@ import DiscordProfile from "@/components/DiscordProfile";
 import Typewriter from "@/components/Typewriter";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCustomization } from "@/context/CustomizationContext";
-import { DISCORD_ID, stats, communityStatValues, DISCORD_WEBHOOK } from "@/lib/site-constants";
+import { DISCORD_ID, stats, communityStatValues, DISCORD_WEBHOOK, SOCIAL_LINKS } from "@/lib/site-constants";
 import useSectionReveal from "@/hooks/use-section-reveal";
-import { Link } from "wouter";
 import {
   ArrowUpRight, Bot, Globe, Wrench, Users, Terminal, Server, Cpu, Boxes, Sparkles, Send,
   Star, ChevronDown, ChevronUp, Github, Clock, Youtube,
-  Zap, Gamepad2, Code2, Swords, BookOpen, User, Briefcase, Mail
+  Zap, Gamepad2, Code2, Swords
 } from "lucide-react";
 
 const SECTION_OFFSET = { scrollMarginTop: 80 };
@@ -61,54 +60,6 @@ function HeroSection() {
   );
 }
 
-// ── Section: Go Deeper ───────────────────────────────────────────────────
-
-function GoDeeperSection() {
-  const { t } = useLanguage();
-  const h = t.home;
-  const cards = [
-    { href: "/about",   label: t.nav.about,   icon: User,      color: "text-blue-400" },
-    { href: "/work",    label: t.nav.work,    icon: Briefcase, color: "text-accent" },
-    { href: "/blog",    label: t.nav.blog,    icon: BookOpen,  color: "text-emerald-400" },
-    { href: "/contact", label: t.nav.contact, icon: Mail,      color: "text-rose-400" },
-  ];
-
-  return (
-    <section className="relative mx-auto max-w-6xl px-6 py-28 reveal-on-scroll" style={SECTION_OFFSET}>
-      <SectionLabel label={h.sectionLabel} />
-      <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-        <div className="max-w-xl">
-          <h2 className="font-display text-4xl font-semibold md:text-5xl">{h.heading}</h2>
-          <p className="mt-4 text-muted-foreground md:text-lg">{h.subheading}</p>
-        </div>
-      </div>
-
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {cards.map((card) => (
-          <Link
-            key={card.href}
-            href={card.href}
-            className="group relative overflow-hidden rounded-2xl border border-border bg-card/40 p-8 transition-all hover:border-accent/40 hover:shadow-lg"
-          >
-            <div className="card-inner-glow" />
-            <div className="relative flex flex-col gap-4">
-              <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-secondary ${card.color}`}>
-                <card.icon className="h-6 w-6" />
-              </div>
-              <div>
-                <h3 className="font-display text-xl font-semibold capitalize">{card.label}</h3>
-                <div className="mt-2 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-accent">
-                  {h.readMore} <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </div>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 // ── Section: About Me ────────────────────────────────────────────────────
 
 const stackIcons = [Terminal, Boxes, Server, Cpu, Sparkles, Send];
@@ -119,6 +70,7 @@ function AboutSection() {
     <section id="about" className="relative mx-auto max-w-6xl px-6 py-28 reveal-on-scroll" style={SECTION_OFFSET}>
       <SectionLabel label={t.about.sectionLabel} />
       <div className="mt-10 grid gap-6 md:grid-cols-2">
+        {/* Bio card */}
         <div className="relative overflow-hidden rounded-2xl border border-accent/30 bg-card/60 p-8 shadow-[0_0_60px_-20px_hsl(var(--accent)/0.6)] backdrop-blur md:p-10">
           <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
           <h2 className="font-display text-3xl font-semibold md:text-4xl">
@@ -127,6 +79,7 @@ function AboutSection() {
           <p className="mt-6 text-muted-foreground leading-relaxed">{t.about.bio1}</p>
           <p className="mt-4 text-muted-foreground leading-relaxed">{t.about.bio2}</p>
 
+          {/* Badges */}
           <div className="mt-6 flex flex-wrap gap-2">
             {t.about.badges.map((b) => (
               <span key={b} className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-xs text-accent">
@@ -136,6 +89,7 @@ function AboutSection() {
           </div>
         </div>
 
+        {/* Stats grid */}
         <div className="grid grid-cols-2 gap-4">
           {stats.map((s) => (
             <div key={s.key} className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-6 card-hover md:p-8">
@@ -151,6 +105,7 @@ function AboutSection() {
         </div>
       </div>
 
+      {/* Stack */}
       <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3">
         {t.stack.items.map(({ label, note }, idx) => {
           const Icon = stackIcons[idx];
@@ -196,6 +151,8 @@ function TimelineSection() {
 }
 
 // ── Section: Featured Products ───────────────────────────────────────────
+
+const serviceIcons = [Bot, Globe, Wrench, Users];
 
 function FeaturedProductsSection() {
   const { t } = useLanguage();
@@ -263,6 +220,7 @@ function FeaturedProductsSection() {
 
 // ── Section: Community Stats ─────────────────────────────────────────────
 
+// Values live in site-constants.ts — easy to update without touching JSX
 const communityStatIcons = [Users, Bot, Server, Clock, Star, Zap];
 
 function CommunityStatsSection() {
@@ -317,6 +275,7 @@ function TestimonialsSection() {
           <div key={idx} className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-7 card-hover flex flex-col">
             <div className="card-inner-glow" />
             <div className="relative flex flex-col h-full">
+              {/* Stars */}
               <div className="flex gap-0.5 mb-3">
                 {Array.from({ length: item.stars }).map((_, i) => (
                   <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
@@ -508,6 +467,26 @@ function ContactSection() {
                 {c.dmOnDiscord}
               </a>
             </div>
+            <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-border/60 pt-6">
+              <span className="font-mono text-xs text-muted-foreground">{c.findMeOn}</span>
+              <a href="https://www.youtube.com/@Hetzel401" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#FF0000] transition-all hover:scale-110">
+                <Youtube className="h-5 w-5" />
+              </a>
+              <a href="https://www.roblox.com/users/1517909098/profile" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#e1523d] transition-all hover:scale-110">
+                <Gamepad2 className="h-5 w-5" />
+              </a>
+              <a href="https://github.com/hetzel401" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-white transition-all hover:scale-110">
+                <Github className="h-5 w-5" />
+              </a>
+              <a href="https://discordapp.com/users/1097536305027629119" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#5865F2] transition-all hover:scale-110">
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.7 19.7 0 0 0 3.677 4.37.077.077 0 0 0 3.65 4.487c.72 10.795 5.098 16.793 9.3 17.773.5.084 1.002.084 1.501 0 4.203-.98 8.581-6.978 9.3-17.773.015-.12-.005-.243-.05-.36z" />
+                </svg>
+              </a>
+              <a href="mailto:universemax401@gmail.com" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-accent transition-all hover:scale-110">
+                <Send className="h-5 w-5" />
+              </a>
+            </div>
           </form>
         )}
       </div>
@@ -516,6 +495,46 @@ function ContactSection() {
 }
 
 // ── Section: Questionnaire ───────────────────────────────────────────────
+
+type QuestionType = "rating" | "radio" | "textarea";
+
+interface Question {
+  id: number;
+  text: string;
+  type: QuestionType;
+  options?: string[];
+}
+
+const QUESTIONS: Question[] = [
+  {
+    id: 1,
+    text: "What do you think of Hetzel's Workshop overall?",
+    type: "rating",
+  },
+  {
+    id: 2,
+    text: "Which of my projects do you like the most?",
+    type: "radio",
+    options: ["Hetzel's Workshop Discord", "My Discord bots", "EFT-related work", "My web projects", "All equally!"],
+  },
+  {
+    id: 3,
+    text: "What feature or improvement would you most like to see added to my Discord bots?",
+    type: "radio",
+    options: ["Economy system improvements", "Better moderation tools", "Mini-games & fun commands", "Custom levelling & XP", "Music / media commands", "Something else (tell me below!)"],
+  },
+  {
+    id: 4,
+    text: "What do you think is the best part of Hetzel's Workshop?",
+    type: "radio",
+    options: ["The community vibe", "The Discord bots", "The EFT section", "The events & activities", "The web presence", "Everything!"],
+  },
+  {
+    id: 5,
+    text: "What suggestions do you have to help me improve my projects and community?",
+    type: "textarea",
+  },
+];
 
 function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [hovered, setHovered] = useState(0);
@@ -549,14 +568,6 @@ function StarRating({ value, onChange }: { value: number; onChange: (v: number) 
   );
 }
 
-const QUESTIONS = [
-  { id: 1, text: "What do you think of Hetzel's Workshop overall?", type: "rating" },
-  { id: 2, text: "Which of my projects do you like the most?", type: "radio", options: ["Hetzel's Workshop Discord", "My Discord bots", "EFT-related work", "My web projects", "All equally!"] },
-  { id: 3, text: "What feature or improvement would you most like to see added to my Discord bots?", type: "radio", options: ["Economy system improvements", "Better moderation tools", "Mini-games & fun commands", "Custom levelling & XP", "Music / media commands", "Something else (tell me below!)"] },
-  { id: 4, text: "What do you think is the best part of Hetzel's Workshop?", type: "radio", options: ["The community vibe", "The Discord bots", "The EFT section", "The events & activities", "The web presence", "Everything!"] },
-  { id: 5, text: "What suggestions do you have to help me improve my projects and community?", type: "textarea" },
-];
-
 function QuestionnaireSection() {
   const { t } = useLanguage();
   const sv = t.survey;
@@ -569,14 +580,20 @@ function QuestionnaireSection() {
   const progress = step === 0 ? 0 : (step / QUESTIONS.length) * 100;
 
   const setAnswer = (id: number, val: string) => setAnswers((a) => ({ ...a, [id]: val }));
-  const canNext = step === 0 ? true : !!answers[current?.id];
+  const canNext = step === 0
+    ? true
+    : current?.type === "rating"
+      ? !!answers[current.id]
+      : !!answers[current.id];
 
   const handleFinish = async () => {
     setSending(true);
     try {
       const fields = QUESTIONS.map((q) => ({
         name: `Q${q.id}: ${q.text}`,
-        value: answers[q.id] ? (q.type === "rating" ? `${"⭐".repeat(Number(answers[q.id]))} (${answers[q.id]}/5)` : answers[q.id]) : "Not answered",
+        value: answers[q.id]
+          ? (q.type === "rating" ? `${"⭐".repeat(Number(answers[q.id]))} (${answers[q.id]}/5)` : answers[q.id])
+          : "Not answered",
         inline: false,
       }));
 
@@ -619,7 +636,10 @@ function QuestionnaireSection() {
       <div className="mt-10 overflow-hidden rounded-3xl border border-border bg-card/60 backdrop-blur">
         {step > 0 && step < 6 && (
           <div className="h-1 bg-secondary/60">
-            <div className="h-1 transition-all duration-500" style={{ width: `${progress}%`, background: "hsl(var(--accent))" }} />
+            <div
+              className="h-1 transition-all duration-500"
+              style={{ width: `${progress}%`, background: "hsl(var(--accent))" }}
+            />
           </div>
         )}
 
@@ -629,13 +649,21 @@ function QuestionnaireSection() {
               <div className="text-4xl">👋</div>
               <div>
                 <h3 className="font-display text-2xl font-semibold">{sv.introTitle}</h3>
-                <p className="mt-2 text-muted-foreground">{sv.introText}</p>
+                <p className="mt-2 text-muted-foreground">
+                  {sv.introText}
+                </p>
               </div>
               <input
-                type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder={sv.nicknamePlaceholder}
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                placeholder={sv.nicknamePlaceholder}
                 className="rounded-xl border border-border bg-secondary/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/20"
               />
-              <button onClick={() => setStep(1)} className="self-start inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-3 text-sm font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-105">
+              <button
+                onClick={() => setStep(1)}
+                className="self-start inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-3 text-sm font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-105"
+              >
                 {sv.start} <ArrowUpRight className="h-4 w-4" />
               </button>
             </div>
@@ -650,28 +678,96 @@ function QuestionnaireSection() {
                 <h3 className="font-display text-xl font-semibold leading-snug">{current.text}</h3>
               </div>
 
-              {current.type === "rating" && <StarRating value={Number(answers[current.id] ?? 0)} onChange={(v) => setAnswer(current.id, String(v))} />}
+              {current.type === "rating" && (
+                <StarRating
+                  value={Number(answers[current.id] ?? 0)}
+                  onChange={(v) => setAnswer(current.id, String(v))}
+                />
+              )}
+
               {current.type === "radio" && current.options && (
                 <div className="flex flex-col gap-2.5">
                   {current.options.map((opt) => {
                     const selected = answers[current.id] === opt;
                     return (
-                      <button key={opt} type="button" onClick={() => setAnswer(current.id, opt)} className="flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all" style={selected ? { borderColor: "hsl(var(--accent) / 0.8)", background: "hsl(var(--accent) / 0.1)", color: "hsl(var(--foreground))" } : { borderColor: "hsl(var(--border))", background: "hsl(var(--card) / 0.4)", color: "hsl(var(--muted-foreground))" }}>
-                        <span className="h-4 w-4 rounded-full border-2 shrink-0 transition-colors" style={{ borderColor: selected ? "hsl(var(--accent))" : "hsl(var(--border))", background: selected ? "hsl(var(--accent))" : "transparent" }} />
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => setAnswer(current.id, opt)}
+                        className="flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all"
+                        style={
+                          selected
+                            ? {
+                                borderColor: "hsl(var(--accent) / 0.8)",
+                                background: "hsl(var(--accent) / 0.1)",
+                                color: "hsl(var(--foreground))",
+                              }
+                            : {
+                                borderColor: "hsl(var(--border))",
+                                background: "hsl(var(--card) / 0.4)",
+                                color: "hsl(var(--muted-foreground))",
+                              }
+                        }
+                      >
+                        <span
+                          className="h-4 w-4 rounded-full border-2 shrink-0 transition-colors"
+                          style={{
+                            borderColor: selected ? "hsl(var(--accent))" : "hsl(var(--border))",
+                            background: selected ? "hsl(var(--accent))" : "transparent",
+                          }}
+                        />
                         <span className="text-sm">{opt}</span>
                       </button>
                     );
                   })}
                 </div>
               )}
-              {current.type === "textarea" && <textarea rows={5} value={answers[current.id] ?? ""} onChange={(e) => setAnswer(current.id, e.target.value)} placeholder={sv.typeSuggestion} className="rounded-xl border border-border bg-secondary/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/20" />}
+
+              {current.type === "textarea" && (
+                <textarea
+                  rows={5}
+                  value={answers[current.id] ?? ""}
+                  onChange={(e) => setAnswer(current.id, e.target.value)}
+                  placeholder={sv.typeSuggestion}
+                  className="rounded-xl border border-border bg-secondary/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-accent/60 focus:outline-none focus:ring-1 focus:ring-accent/20"
+                />
+              )}
 
               <div className="flex items-center gap-3">
-                {step > 1 && <button onClick={() => setStep((s) => s - 1)} className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 px-5 py-2.5 text-sm font-medium text-muted-foreground transition hover:text-foreground">{sv.back}</button>}
+                {step > 1 && (
+                  <button
+                    onClick={() => setStep((s) => s - 1)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 px-5 py-2.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+                  >
+                    {sv.back}
+                  </button>
+                )}
                 {step < QUESTIONS.length ? (
-                  <button onClick={() => setStep((s) => s + 1)} disabled={!canNext} className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-2.5 text-sm font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">{sv.next}</button>
+                  <button
+                    onClick={() => setStep((s) => s + 1)}
+                    disabled={!canNext}
+                    className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-2.5 text-sm font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {sv.next}
+                  </button>
                 ) : (
-                  <button onClick={handleFinish} disabled={sending || !canNext} className="inline-flex items-center gap-2 rounded-full px-7 py-2.5 text-sm font-semibold text-background transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed" style={{ background: "hsl(var(--accent))" }}>{sending ? sv.submitting : sv.submit}</button>
+                  <button
+                    onClick={handleFinish}
+                    disabled={sending || !canNext}
+                    className="inline-flex items-center gap-2 rounded-full px-7 py-2.5 text-sm font-semibold text-background transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ background: "hsl(var(--accent))" }}
+                  >
+                    {sending ? sv.submitting : sv.submit}
+                  </button>
+                )}
+
+                {!canNext && current.type !== "rating" && (
+                  <button
+                    onClick={() => step < QUESTIONS.length ? setStep((s) => s + 1) : handleFinish()}
+                    className="font-mono text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground"
+                  >
+                    {sv.skip}
+                  </button>
                 )}
               </div>
             </div>
@@ -681,8 +777,16 @@ function QuestionnaireSection() {
             <div className="flex flex-col items-center gap-4 text-center py-6">
               <div className="text-6xl animate-bounce">🎉</div>
               <h3 className="font-display text-2xl font-semibold">{sv.thanks.replace("{name}", nickname || "friend")}</h3>
-              <p className="text-muted-foreground max-w-sm">{sv.successText}</p>
-              <a href="https://discord.gg/Mj9byBhusx" target="_blank" rel="noreferrer noopener" className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#5865F2]/90 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#5865F2] hover:scale-105">{sv.joinDiscord}</a>
+              <p className="text-muted-foreground max-w-sm">
+                {sv.successText}
+              </p>
+              <a
+                href="https://discord.gg/Mj9byBhusx"
+                target="_blank" rel="noreferrer noopener"
+                className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#5865F2]/90 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#5865F2] hover:scale-105"
+              >
+                {sv.joinDiscord}
+              </a>
             </div>
           )}
         </div>
@@ -691,18 +795,20 @@ function QuestionnaireSection() {
   );
 }
 
-// ── Section: Footer ──────────────────────────────────────────────────────
+// ── Section: Footer with Social Links ───────────────────────────────────
 
-const socials = [
-  { label: "YouTube", href: "https://www.youtube.com/@Hetzel401", icon: <Youtube className="h-5 w-5" />, color: "#FF0000" },
-  { label: "Roblox", href: "https://www.roblox.com/users/1517909098/profile", icon: <Gamepad2 className="h-5 w-5" />, color: "#e1523d" },
-  { label: "GitHub", href: "https://github.com/hetzel401", icon: <Github className="h-5 w-5" />, color: "#ffffff" },
-  { label: "Discord", href: "https://discordapp.com/users/1097536305027629119", icon: (
+/** Maps a social link label to its icon JSX */
+function SocialIcon({ label }: { label: string }) {
+  if (label === "Discord") return (
     <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
       <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.7 19.7 0 0 0 3.677 4.37.077.077 0 0 0 3.65 4.487c.72 10.795 5.098 16.793 9.3 17.773.5.084 1.002.084 1.501 0 4.203-.98 8.581-6.978 9.3-17.773.015-.12-.005-.243-.05-.36z" />
     </svg>
-  ), color: "#5865F2" },
-];
+  );
+  if (label === "YouTube") return <Youtube className="h-5 w-5" />;
+  if (label === "Roblox")  return <Gamepad2 className="h-5 w-5" />;
+  if (label === "GitHub")  return <Github className="h-5 w-5" />;
+  return <Send className="h-5 w-5" />;
+}
 
 function FullFooter() {
   const { t } = useLanguage();
@@ -716,15 +822,26 @@ function FullFooter() {
               <Code2 className="h-5 w-5 text-accent" />
               Hetzel401
             </div>
-            <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-xs">{f.brandDescription}</p>
+            <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-xs">
+              {f.brandDescription}
+            </p>
             <div className="mt-5 flex flex-wrap gap-3">
               {socials.map((s) => (
-                <a key={s.label} href={s.href} target="_blank" rel="noreferrer noopener" title={s.label} className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 transition-all hover:scale-110" style={{ color: s.color, borderColor: `${s.color}30` }}>
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target={s.href.startsWith("http") ? "_blank" : "_self"}
+                  rel="noreferrer noopener"
+                  title={s.label}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 transition-all hover:scale-110"
+                  style={{ color: s.color, borderColor: `${s.color}30` }}
+                >
                   {s.icon}
                 </a>
               ))}
             </div>
           </div>
+
           <div>
             <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-4">{f.statusTitle}</div>
             <div className="space-y-3">
@@ -735,15 +852,22 @@ function FullFooter() {
                 </div>
               ))}
             </div>
+
             <div className="mt-6 rounded-xl border border-accent/20 bg-accent/5 p-4">
               <div className="font-mono text-xs text-muted-foreground mb-1">{f.contactTitle}</div>
-              <a href="mailto:universemax401@gmail.com" className="font-mono text-sm text-accent hover:underline">universemax401@gmail.com</a>
+              <a href="mailto:universemax401@gmail.com" className="font-mono text-sm text-accent hover:underline">
+                universemax401@gmail.com
+              </a>
             </div>
           </div>
         </div>
+
         <div className="mt-12 border-t border-border/60 pt-8 flex flex-col items-center justify-between gap-3 font-mono text-xs text-muted-foreground md:flex-row">
           <span>© {new Date().getFullYear()} Hetzel401 · {f.builtWith}</span>
-          <span className="flex items-center gap-2"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />{f.allOperational}</span>
+          <span className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+            {f.allOperational}
+          </span>
         </div>
       </div>
     </footer>
@@ -759,10 +883,33 @@ export default function Index() {
       <Helmet>
         <title>Hetzel401 — Discord Bot & Server Developer</title>
         <meta name="description" content="Independent developer building custom Discord bots, server designs, and web projects. Open for commissions." />
+        <meta property="og:title" content="Hetzel401 — Discord Bot & Server Developer" />
+        <meta property="og:description" content="Independent developer building custom Discord bots, server designs, and web projects. Open for commissions." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://hetzel401.vercel.app" />
+        <meta property="og:image" content="/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Hetzel401 — Discord Bot & Server Developer" />
+        <meta name="twitter:description" content="Independent developer building custom Discord bots, server designs, and web projects. Open for commissions." />
+        <meta name="twitter:image" content="/og-image.png" />
+        <link rel="canonical" href="https://hetzel401.vercel.app" />
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Hetzel401",
+            "url": "https://hetzel401.vercel.app",
+            "jobTitle": "Discord Bot & Server Developer",
+            "sameAs": [
+              "https://github.com/hetzel401",
+              "https://www.youtube.com/@Hetzel401",
+              "https://discordapp.com/users/1097536305027629119"
+            ]
+          }
+        `}</script>
       </Helmet>
       <Nav />
       <HeroSection />
-      <GoDeeperSection />
       <AboutSection />
       <TimelineSection />
       <FeaturedProductsSection />
