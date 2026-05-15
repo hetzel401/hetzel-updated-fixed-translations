@@ -156,6 +156,15 @@ function ConfettiEffect() {
   return <canvas ref={canvasRef} className="fixed inset-0 z-[60] pointer-events-none" />;
 }
 
+function GlitchEffect() {
+  return (
+    <div className="fixed inset-0 z-[65] pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 animate-glitch-1 bg-accent/5 mix-blend-overlay" />
+      <div className="absolute inset-0 animate-glitch-2 bg-indigo-500/5 mix-blend-overlay" />
+    </div>
+  );
+}
+
 export default function EffectsLayer() {
   const { config } = useCustomization();
 
@@ -165,6 +174,7 @@ export default function EffectsLayer() {
       {config.rainEffect && <RainEffect />}
       {config.fireflyEffect && <FireflyEffect />}
       {config.confettiEffect && <ConfettiEffect />}
+      {config.glitchEffect && <GlitchEffect />}
       {config.scanlineEffect && <div className="fixed inset-0 z-[60] pointer-events-none scanline opacity-40" />}
       {config.vignetteEffect && (
         <div className="fixed inset-0 z-[60] pointer-events-none" style={{ background: "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%)" }} />

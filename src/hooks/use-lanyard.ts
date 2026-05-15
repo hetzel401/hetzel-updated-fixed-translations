@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-const DISCORD_ID = "1097536305027629119";
+import { DISCORD_ID } from "@/lib/site-constants";
 
 export type LanyardActivity = {
   type: number;
