@@ -20,3 +20,19 @@ export const stats = [
   { value: "5+", key: "servers" as const },
   { value: "1500", key: "members" as const },
 ];
+
+export const communityStatValues = [
+  "1.5k+", // Discord Members
+  "12+",  // Custom Bots Made
+  "8+",   // Servers Designed
+  "1.5+", // Years Experience
+  "100%", // Passion
+  "99.9%",// Bot Uptime
+];
+
+export const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1504718321537515620/d_T7GNMD1lUZRjTkuxTmt4uPA_4dLv-nEBDmdK9-quG6o650EXCUhctaTuQwEFtWvpcw";
+
+export const SOCIAL_LINKS = [
+  { label: "GitHub", href: "https://github.com/hetzel401" },
+  { label: "Discord", href: "https://discord.gg/Mj9byBhusx" },
+];
