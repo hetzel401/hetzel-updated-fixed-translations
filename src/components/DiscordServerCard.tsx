@@ -79,11 +79,11 @@ const STATUS_DOT = {
 // Real-ish messages with actual member names
 const MESSAGES = [
   { user: "Hetzel401", emoji: "🔧", color: "#f59e0b", time: "Today at 12:00",
-    text: "Welcome to Hetzel's Workshop! 🎉 Check #rules and grab your roles in #roles. Don't hesitate to ask anything!" },
+    text: "Welcome to Hetzel's Workshop! 🎉 Ask about bot support in #bot-commands and get your roles in #roles." },
   { user: "badgy",     emoji: "🛡", color: "#34d399", time: "Today at 12:15",
-    text: "Great community here — bot commands in #bot-commands, EFT chat in the EFT section. Enjoy!" },
+    text: "Great community here — bot commands, server design help, and active EFT chat in the EFT section. Enjoy!" },
   { user: "nightshade",emoji: "🌙", color: "#8b5cf6", time: "Today at 12:30",
-    text: "If you need a custom Discord bot, Hetzel builds quality stuff fast 🤖 Check #commissions for info." },
+    text: "Need a custom Discord bot or server setup? Hetzel builds quality bots and server layouts fast 🤖 Check #commissions." },
   { user: "MIAQ",      emoji: "⭐", color: "#8b5cf6", time: "Today at 12:45",
     text: "The EFT section is super active lately. Drop into #raid-squads if you want to run some raids!" },
 ];

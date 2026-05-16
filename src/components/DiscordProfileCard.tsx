@@ -249,7 +249,7 @@ export default function DiscordProfileCard() {
             About Me
           </div>
           <p className="text-sm leading-relaxed" style={{ color: "#dbdee1" }}>
-            Student dev building Discord bots, web projects & EFT tools. 17 y/o · UK 🇬🇧
+            Discord bot developer and server designer. I build custom bots, server layouts, and community tools for active communities.
           </p>
         </div>
 
