@@ -129,7 +129,6 @@ const en = {
     items: [
       { name: "Hetzel's Workshop Discord", description: "A welcoming community server for gaming, bots, and fun. Over 1,500+ members strong with active channels and events.",               badge: "Community", tags: ["Discord", "1500+ Members", "Active"]      },
       { name: "Custom Discord Bots",        description: "Fully tailored bots built from scratch — moderation, games, economy systems, reaction roles, levelling, and much more.",              badge: "Service",   tags: ["Node.js", "discord.js", "Custom"]           },
-      { name: "EFT Community Tools",        description: "Tools, guides, and resources for Escape from Tarkov players and community members — all crafted with passion.",                       badge: "Gaming",    tags: ["EFT", "Gaming", "Tools"]                    },
       { name: "Server Design Service",      description: "End-to-end Discord server setup — channels, roles, bots, branding, and onboarding flows. Polished and professional.",                badge: "Service",   tags: ["Setup", "Design", "Branding"]               },
     ],
   },
@@ -290,7 +289,6 @@ const es: typeof en = {
     items: [
       { name: "Discord de Hetzel's Workshop", description: "Un servidor comunitario acogedor para juegos, bots y diversión. Más de 1,500 miembros con canales activos y eventos.",                badge: "Comunidad", tags: ["Discord", "1500+ Miembros", "Activo"] },
       { name: "Bots de Discord Personalizados", description: "Bots completamente personalizados construidos desde cero — moderación, juegos, sistemas de economía, roles de reacción y más.", badge: "Servicio",   tags: ["Node.js", "discord.js", "Custom"]     },
-      { name: "Herramientas de Comunidad EFT",  description: "Herramientas, guías y recursos para jugadores de Escape from Tarkov — todo hecho con pasión.",                                badge: "Gaming",    tags: ["EFT", "Gaming", "Herramientas"]       },
       { name: "Servicio de Diseño de Servidor", description: "Configuración completa del servidor — canales, roles, bots, branding y flujos de incorporación. Pulido y profesional.",       badge: "Servicio",  tags: ["Configuración", "Diseño", "Branding"] },
     ],
   },
@@ -451,7 +449,6 @@ const fr: typeof en = {
     items: [
       { name: "Discord Hetzel's Workshop", description: "Un serveur communautaire accueillant pour les jeux, bots et divertissement. Plus de 1 500 membres actifs.",             badge: "Communauté", tags: ["Discord", "1500+ Membres", "Actif"]  },
       { name: "Bots Discord Personnalisés", description: "Bots entièrement sur mesure — modération, jeux, économie, rôles de réaction, niveaux et bien plus.",                 badge: "Service",    tags: ["Node.js", "discord.js", "Custom"]    },
-      { name: "Outils Communauté EFT",     description: "Outils, guides et ressources pour les joueurs d'Escape from Tarkov — tout fait avec passion.",                         badge: "Gaming",     tags: ["EFT", "Gaming", "Outils"]            },
       { name: "Service Design Serveur",    description: "Configuration complète — canaux, rôles, bots, branding et parcours d'accueil. Soigné et professionnel.",               badge: "Service",    tags: ["Configuration", "Design", "Branding"] },
     ],
   },
@@ -612,7 +609,6 @@ const de: typeof en = {
     items: [
       { name: "Hetzel's Workshop Discord", description: "Ein einladender Community-Server für Gaming, Bots und Spaß. Über 1.500 Mitglieder mit aktiven Kanälen und Events.",      badge: "Community", tags: ["Discord", "1500+ Mitglieder", "Aktiv"] },
       { name: "Maßgeschneiderte Bots",     description: "Vollständig angepasste Bots von Grund auf — Moderation, Spiele, Wirtschaftssysteme, Reaktionsrollen, Leveling.",         badge: "Service",   tags: ["Node.js", "discord.js", "Custom"]    },
-      { name: "EFT-Community-Tools",       description: "Tools, Guides und Ressourcen für Escape from Tarkov-Spieler — alles mit Leidenschaft erstellt.",                        badge: "Gaming",    tags: ["EFT", "Gaming", "Tools"]             },
       { name: "Server-Design-Service",     description: "Vollständiges Server-Setup — Kanäle, Rollen, Bots, Branding und Onboarding-Abläufe. Poliert und professionell.",        badge: "Service",   tags: ["Setup", "Design", "Branding"]        },
     ],
   },
@@ -773,7 +769,6 @@ const pt: typeof en = {
     items: [
       { name: "Discord Hetzel's Workshop",     description: "Um servidor comunitário acolhedor para jogos, bots e diversão. Mais de 1.500 membros ativos.",            badge: "Comunidade", tags: ["Discord", "1500+ Membros", "Ativo"]  },
       { name: "Bots Discord Personalizados",   description: "Bots totalmente personalizados do zero — moderação, jogos, economia, cargos de reação, nivelamento.",    badge: "Serviço",    tags: ["Node.js", "discord.js", "Custom"]    },
-      { name: "Ferramentas Comunidade EFT",    description: "Ferramentas, guias e recursos para jogadores de Escape from Tarkov — tudo feito com paixão.",            badge: "Gaming",     tags: ["EFT", "Gaming", "Ferramentas"]       },
       { name: "Serviço de Design de Servidor", description: "Configuração completa do servidor — canais, cargos, bots, branding e fluxos de integração.",            badge: "Serviço",    tags: ["Configuração", "Design", "Branding"] },
     ],
   },
@@ -934,7 +929,6 @@ const ja: typeof en = {
     items: [
       { name: "Hetzel's Workshop Discord", description: "ゲーム、ボット、楽しさのためのウェルカムコミュニティサーバー。1,500人以上のメンバーとアクティブなチャンネル。", badge: "コミュニティ", tags: ["Discord", "1500+メンバー", "アクティブ"] },
       { name: "カスタムDiscordボット",     description: "ゼロから完全カスタムのボット — モデレーション、ゲーム、経済システム、リアクションロール、レベリング。",          badge: "サービス",    tags: ["Node.js", "discord.js", "カスタム"]  },
-      { name: "EFTコミュニティツール",     description: "Escape from Tarkovプレイヤー向けのツール、ガイド、リソース — 情熱を込めて制作。",                                   badge: "ゲーミング",   tags: ["EFT", "ゲーミング", "ツール"]        },
       { name: "サーバーデザインサービス",  description: "エンドツーエンドのサーバー設定 — チャンネル、ロール、ボット、ブランディング、オンボーディング。",                   badge: "サービス",    tags: ["設定", "デザイン", "ブランディング"] },
     ],
   },
