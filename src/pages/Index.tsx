@@ -804,7 +804,13 @@ function QuestionnaireSection() {
 
 function DiscordGUISection() {
   const [tab, setTab] = useState<"server" | "profile">("server");
-  const [inviteCounts, setInviteCounts] = useState<{ members: number; online: number } | null>(null);
+  const [inviteData, setInviteData] = useState<{
+    members: number;
+    online: number;
+    description?: string;
+    iconUrl?: string;
+    name?: string;
+  } | null>(null);
   const [inviteLoading, setInviteLoading] = useState(true);
   const { t } = useLanguage();
 
@@ -814,9 +820,17 @@ function DiscordGUISection() {
       .then((r) => r.json())
       .then((json) => {
         if (json?.approximate_member_count != null) {
-          setInviteCounts({
+          const iconHash = json.guild?.icon;
+          const iconUrl = iconHash
+            ? `https://cdn.discordapp.com/icons/${json.guild.id}/${iconHash}.${iconHash.startsWith("a_") ? "gif" : "png"}?size=128`
+            : undefined;
+
+          setInviteData({
             members: json.approximate_member_count,
-            online: json?.approximate_presence_count ?? 0,
+            online: json.approximate_presence_count ?? 0,
+            description: json.guild?.description ?? "A supportive community for Discord bots, server design, and custom development.",
+            iconUrl,
+            name: json.guild?.name ?? "Hetzel's Workshop",
           });
         }
       })
@@ -872,38 +886,55 @@ function DiscordGUISection() {
         {tab === "server" ? (
           <div className="w-full max-w-3xl">
             <div
-              className="rounded-3xl border border-border bg-[#24262b] px-6 py-8 text-center shadow-2xl"
-              style={{ minHeight: 260 }}
+              className="rounded-3xl border border-border bg-[#24262b] p-6 shadow-2xl"
+              style={{ minHeight: 320 }}
             >
-              <div className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-[#94a3b8]">
-                Join server
+              <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-3xl bg-[#1f2330]">
+                    {inviteData?.iconUrl ? (
+                      <img src={inviteData.iconUrl} alt={inviteData.name} className="h-full w-full object-cover" />
+                    ) : (
+                      <span className="text-3xl font-semibold text-white">H</span>
+                    )}
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold uppercase tracking-[0.25em] text-[#94a3b8]">
+                      Discord Community
+                    </div>
+                    <h3 className="mt-2 text-3xl font-semibold text-white">
+                      {inviteData?.name ?? "Hetzel's Workshop"}
+                    </h3>
+                  </div>
+                </div>
+                <a
+                  href={DISCORD_URL}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex items-center justify-center rounded-full bg-[#5865F2] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#4752c4]"
+                >
+                  Join Server
+                </a>
               </div>
-              <h3 className="mb-4 text-3xl font-semibold text-white">Hetzel's Workshop</h3>
-              <p className="mx-auto mb-6 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                Securely join the official Discord community. Member counts below are synced from Discord's invite API.
+
+              <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+                {inviteData?.description ?? "A supportive community for Discord bots, server design, and custom development."}
               </p>
-              <div className="mb-6 flex flex-col items-center justify-center gap-3 md:flex-row">
-                <div className="rounded-2xl bg-[#1e1f22] px-4 py-3 text-left text-sm text-muted-foreground">
-                  <div className="font-medium text-white">Members</div>
-                  <div className="text-2xl font-semibold text-white">
-                    {inviteLoading ? "..." : inviteCounts?.members.toLocaleString() ?? "n/a"}
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-2xl bg-[#1e1f22] px-5 py-4">
+                  <div className="text-xs uppercase tracking-[0.25em] text-[#94a3b8]">Members</div>
+                  <div className="mt-2 text-3xl font-semibold text-white">
+                    {inviteLoading ? "..." : inviteData?.members.toLocaleString() ?? "n/a"}
                   </div>
                 </div>
-                <div className="rounded-2xl bg-[#1e1f22] px-4 py-3 text-left text-sm text-muted-foreground">
-                  <div className="font-medium text-white">Online now</div>
-                  <div className="text-2xl font-semibold text-white">
-                    {inviteLoading ? "..." : inviteCounts?.online.toLocaleString() ?? "n/a"}
+                <div className="rounded-2xl bg-[#1e1f22] px-5 py-4">
+                  <div className="text-xs uppercase tracking-[0.25em] text-[#94a3b8]">Online now</div>
+                  <div className="mt-2 text-3xl font-semibold text-white">
+                    {inviteLoading ? "..." : inviteData?.online.toLocaleString() ?? "n/a"}
                   </div>
                 </div>
               </div>
-              <a
-                href={DISCORD_URL}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="inline-flex items-center justify-center rounded-full bg-[#5865F2] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#4752c4]"
-              >
-                Join Server
-              </a>
             </div>
           </div>
         ) : (
