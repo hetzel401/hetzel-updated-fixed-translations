@@ -10,7 +10,7 @@ import {
   BookOpen, Swords, Bot, Wrench, Star
 } from "lucide-react";
 
-const INVITE_CODE = "defense";
+const INVITE_CODE = "Mj9byBhusx";
 const INVITE_URL  = `https://discord.gg/${INVITE_CODE}`;
 const API_URL     = `https://discord.com/api/v9/invites/${INVITE_CODE}?with_counts=true`;
 
@@ -64,7 +64,7 @@ const MEMBERS = [
   { name: "MIAQ",        emoji: "⭐", role: "Executive",      status: "online"  as const, color: "#8b5cf6" },
   { name: "nightshade",  emoji: "🌙", role: "Executive",      status: "idle"    as const, color: "#8b5cf6" },
   { name: "badgy",       emoji: "🛡", role: "Head of Admin",  status: "online"  as const, color: "#34d399" },
-  { name: "TarkovRat",   emoji: "🐀", role: "EFT Member",     status: "dnd"     as const, color: "#6b7280" },
+  { name: "TarkovRat",   emoji: "🐀", role: "Member",     status: "dnd"     as const, color: "#6b7280" },
   { name: "PixelRaven",  emoji: "🎮", role: "Member",         status: "online"  as const, color: "#6b7280" },
   { name: "ShadowBlitz", emoji: "⚡", role: "Member",         status: "offline" as const, color: "#6b7280" },
 ];

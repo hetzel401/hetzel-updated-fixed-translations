@@ -1,15 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Constellation from "@/components/Constellation";
 import Nav from "@/components/Nav";
-import DiscordServerCard from "@/components/DiscordServerCard";
 import DiscordProfileCard from "@/components/DiscordProfileCard";
 import { SectionLabel } from "@/components/SectionLabel";
 import DiscordProfile from "@/components/DiscordProfile";
 import Typewriter from "@/components/Typewriter";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCustomization } from "@/context/CustomizationContext";
-import { DISCORD_ID, stats, communityStatValues, DISCORD_WEBHOOK, SOCIAL_LINKS } from "@/lib/site-constants";
+import { DISCORD_ID, DISCORD_URL, stats, communityStatValues, DISCORD_WEBHOOK, SOCIAL_LINKS } from "@/lib/site-constants";
 import useSectionReveal from "@/hooks/use-section-reveal";
 import {
   ArrowUpRight, Bot, Globe, Wrench, Users, Terminal, Server, Cpu, Boxes, Sparkles, Send,
@@ -805,7 +804,27 @@ function QuestionnaireSection() {
 
 function DiscordGUISection() {
   const [tab, setTab] = useState<"server" | "profile">("server");
+  const [inviteCounts, setInviteCounts] = useState<{ members: number; online: number } | null>(null);
+  const [inviteLoading, setInviteLoading] = useState(true);
   const { t } = useLanguage();
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("https://discord.com/api/v9/invites/defense?with_counts=true", { signal: controller.signal })
+      .then((r) => r.json())
+      .then((json) => {
+        if (json?.approximate_member_count != null) {
+          setInviteCounts({
+            members: json.approximate_member_count,
+            online: json?.approximate_presence_count ?? 0,
+          });
+        }
+      })
+      .catch(() => {})
+      .finally(() => setInviteLoading(false));
+
+    return () => controller.abort();
+  }, []);
 
   return (
     <section
@@ -852,7 +871,40 @@ function DiscordGUISection() {
       <div className="mt-6 flex justify-center">
         {tab === "server" ? (
           <div className="w-full max-w-3xl">
-            <DiscordServerCard />
+            <div
+              className="rounded-3xl border border-border bg-[#24262b] px-6 py-8 text-center shadow-2xl"
+              style={{ minHeight: 260 }}
+            >
+              <div className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-[#94a3b8]">
+                Join server
+              </div>
+              <h3 className="mb-4 text-3xl font-semibold text-white">Hetzel's Workshop</h3>
+              <p className="mx-auto mb-6 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                Securely join the official Discord community. Member counts below are synced from Discord's invite API.
+              </p>
+              <div className="mb-6 flex flex-col items-center justify-center gap-3 md:flex-row">
+                <div className="rounded-2xl bg-[#1e1f22] px-4 py-3 text-left text-sm text-muted-foreground">
+                  <div className="font-medium text-white">Members</div>
+                  <div className="text-2xl font-semibold text-white">
+                    {inviteLoading ? "..." : inviteCounts?.members.toLocaleString() ?? "n/a"}
+                  </div>
+                </div>
+                <div className="rounded-2xl bg-[#1e1f22] px-4 py-3 text-left text-sm text-muted-foreground">
+                  <div className="font-medium text-white">Online now</div>
+                  <div className="text-2xl font-semibold text-white">
+                    {inviteLoading ? "..." : inviteCounts?.online.toLocaleString() ?? "n/a"}
+                  </div>
+                </div>
+              </div>
+              <a
+                href={DISCORD_URL}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-flex items-center justify-center rounded-full bg-[#5865F2] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#4752c4]"
+              >
+                Join Server
+              </a>
+            </div>
           </div>
         ) : (
           <DiscordProfileCard />
