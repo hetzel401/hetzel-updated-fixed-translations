@@ -10,7 +10,7 @@ import {
   BookOpen, Swords, Bot, Wrench, Star
 } from "lucide-react";
 
-const INVITE_CODE = "Mj9byBhusx";
+const INVITE_CODE = "defense";
 const INVITE_URL  = `https://discord.gg/${INVITE_CODE}`;
 const API_URL     = `https://discord.com/api/v9/invites/${INVITE_CODE}?with_counts=true`;
 

@@ -5,7 +5,7 @@
 
 // ── Discord ──────────────────────────────────────────────────────────────────
 export const DISCORD_ID   = "1097536305027629119";
-export const DISCORD_URL  = "https://discord.gg/Mj9byBhusx";
+export const DISCORD_URL  = "https://discord.gg/defense";
 
 // ── Contact ──────────────────────────────────────────────────────────────────
 export const EMAIL        = "universemax401@gmail.com";
@@ -38,13 +38,13 @@ export const stats = [
   { value: "1.5+",  key: "yearsExp" as const },
   { value: "∞",    key: "ideas"    as const },
   { value: "5+",   key: "servers"  as const },
-  { value: "1500", key: "members"  as const },
+  { value: "359",  key: "members"  as const },
 ];
 
 // ── Community stats (numbers displayed in the stats section) ─────────────────
 // Change the `value` string to update what shows on the page.
 export const communityStatValues = [
-  "1,500+",  // Discord Members
+  "359",  // Discord Members
   "10+",     // Custom Bots Made
   "5+",      // Servers Designed
   "1.5+",    // Years Experience

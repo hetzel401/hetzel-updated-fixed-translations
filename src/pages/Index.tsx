@@ -160,7 +160,7 @@ function FeaturedProductsSection() {
   const { t } = useLanguage();
   const productData = t.productsExtra;
   const productMeta = [
-    { icon: Users, href: "https://discord.gg/Mj9byBhusx", gradient: "from-[#5865F2]/20 via-transparent to-transparent" },
+    { icon: Users, href: "https://discord.gg/defense", gradient: "from-[#5865F2]/20 via-transparent to-transparent" },
     { icon: Bot, href: "#contact", gradient: "from-accent/20 via-transparent to-transparent" },
     { icon: Swords, href: "#contact", gradient: "from-[#f59e0b]/20 via-transparent to-transparent" },
     { icon: Wrench, href: "#contact", gradient: "from-[#34d399]/20 via-transparent to-transparent" },
@@ -784,7 +784,7 @@ function QuestionnaireSection() {
                 {sv.successText}
               </p>
               <a
-                href="https://discord.gg/Mj9byBhusx"
+                href="https://discord.gg/defense"
                 target="_blank" rel="noreferrer noopener"
                 className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#5865F2]/90 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#5865F2] hover:scale-105"
               >

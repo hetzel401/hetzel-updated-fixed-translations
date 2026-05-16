@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useLanyardContext } from "@/context/LanyardContext";
 import { ExternalLink, Music, Clock, Gamepad2, MessageSquare, Wifi } from "lucide-react";
 
-const DISCORD_INVITE = "https://discord.gg/Mj9byBhusx";
+const DISCORD_INVITE = "https://discord.gg/defense";
 const DISCORD_PROFILE = "https://discordapp.com/users/1097536305027629119";
 const LANYARD_KV_URL  = "https://api.lanyard.rest/v1/users/1097536305027629119";
 
