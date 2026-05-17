@@ -24,7 +24,7 @@ const BELOW_FOLD = "content-visibility-auto";
 function HeroSection() {
   const { t } = useLanguage();
   return (
-    <section className="relative flex min-h-screen items-center justify-center px-6 pt-28 pb-16">
+    <section className="relative flex min-h-screen items-center justify-center px-6 pt-40 pb-16">
       <Constellation />
       <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center animate-fade-up">
         <div className="mb-8">

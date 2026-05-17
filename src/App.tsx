@@ -9,7 +9,7 @@ import NotFound from "@/pages/not-found";
 import CustomCursor from "@/components/CustomCursor";
 import BackgroundManager from "@/components/BackgroundManager";
 import EffectsLayer from "@/components/EffectsLayer";
-import SettingsPanel from "@/components/SettingsPanel";
+import WindowsNav from "@/components/WindowsNav";
 import NowPlayingWidget from "@/components/NowPlayingWidget";
 import StatusBanner from "@/components/StatusBanner";
 import BackToTop from "@/components/BackToTop";
@@ -47,7 +47,7 @@ function App() {
               <ClickRipple />
               <BackgroundManager />
               <EffectsLayer />
-              <SettingsPanel />
+              <WindowsNav />
               <CommandPalette />
               <Router />
               <NowPlayingWidget />
