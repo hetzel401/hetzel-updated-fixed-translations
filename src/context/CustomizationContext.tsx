@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 
 export type CursorStyle = "default" | "dot" | "ring" | "crosshair" | "emoji" | "trail" | "glow" | "none";
-export type BackgroundType = "default" | "gradient" | "particles" | "matrix" | "stars" | "custom-image" | "solid" | "aurora" | "waves";
+export type BackgroundType = "orbs" | "default" | "gradient" | "particles" | "matrix" | "stars" | "custom-image" | "solid" | "aurora" | "waves";
 export type BackgroundImageFit = "cover" | "contain" | "stretch" | "repeat";
 export type BackgroundImagePosition = "center" | "top" | "bottom";
 export type NowPlayingProgressStyle = "smooth" | "thin" | "blocks";
@@ -120,7 +120,7 @@ const DEFAULT_STATE: CustomizationState = {
   cursorTrailLength: 5,
   cursorEmoji: "\u2728",
   cursorBlendMode: "normal",
-  backgroundType: "default",
+  backgroundType: "orbs",
   backgroundGradient: DEFAULT_BACKGROUND_GRADIENT,
   backgroundImage: "",
   backgroundOpacity: 100,

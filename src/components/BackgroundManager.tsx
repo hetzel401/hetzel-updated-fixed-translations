@@ -1,5 +1,6 @@
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { useCustomization, type BackgroundImageFit, DEFAULT_BACKGROUND_GRADIENT } from "@/context/CustomizationContext";
+import OrbLayer from "@/components/OrbLayer";
 
 function bgSizeFromFit(fit: BackgroundImageFit): string {
   if (fit === "contain") return "contain";
@@ -274,6 +275,8 @@ export default function BackgroundManager() {
   const gradientCss = config.backgroundGradient?.trim() || DEFAULT_BACKGROUND_GRADIENT;
 
   switch (config.backgroundType) {
+    case "orbs":
+      return <OrbLayer />;
     case "gradient":
       return (
         <BackgroundStack>
