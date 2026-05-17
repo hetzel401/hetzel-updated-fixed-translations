@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useCustomization } from "@/context/CustomizationContext";
 
 export default function useSectionReveal() {
@@ -12,6 +12,14 @@ export default function useSectionReveal() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("revealed");
+
+            // Stagger direct children that opt-in with .stagger-child
+            const children = entry.target.querySelectorAll(":scope > .stagger-child, :scope > * > .stagger-child");
+            children.forEach((child, i) => {
+              (child as HTMLElement).style.transitionDelay = `${i * 80}ms`;
+              child.classList.add("stagger-visible");
+            });
+
             observer.unobserve(entry.target);
           }
         });

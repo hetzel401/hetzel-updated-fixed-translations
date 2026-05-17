@@ -295,6 +295,15 @@
     opacity: 1;
     transform: translateY(0);
   }
+  .stagger-child {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s cubic-bezier(0.21, 0.98, 0.35, 1), transform 0.5s cubic-bezier(0.21, 0.98, 0.35, 1);
+  }
+  .stagger-child.stagger-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
   .content-visibility-auto {
     content-visibility: auto;
     contain-intrinsic-size: 500px;

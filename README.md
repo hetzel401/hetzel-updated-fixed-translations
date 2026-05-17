@@ -17,12 +17,25 @@ A modern, responsive portfolio website built with React, TypeScript, and Tailwin
 - 📧 **Contact Integration** - Easy client outreach and commission inquiries
 
 ### Mobile Improvements (v1.1.0)
-- ✅ **Touch-Friendly Navigation** - Optimized spacing for mobile interactions
-- ✅ **Responsive Typography** - Dynamic font sizes for all screen sizes
-- ✅ **Smooth Scrolling** - Fixed scrolling performance on mobile and tablet
-- ✅ **Hamburger Menu** - Collapsible navigation for small screens
-- ✅ **Optimized Images** - Responsive images with proper aspect ratios
-- ✅ **Mobile-First CSS** - Prioritized mobile experience first
+- **Touch-Friendly Navigation** - Optimized spacing for mobile interactions
+- **Responsive Typography** - Dynamic font sizes for all screen sizes
+- **Smooth Scrolling** - Fixed scrolling performance on mobile and tablet
+- **Hamburger Menu** - Collapsible navigation for small screens
+- **Optimized Images** - Responsive images with proper aspect ratios
+- **Mobile-First CSS** - Prioritized mobile experience first
+
+### Mobile & UX Improvements (v1.2.0)
+- **Mobile Bottom Navigation** - Fixed bottom nav bar with quick links to About, Work, Discord, and Contact (auto-hides at top, highlights active section)
+- **Animated Stat Counters** - Stats count up from zero when scrolled into view using IntersectionObserver
+- **Touch Swipe for Discord Tabs** - Swipe left/right to switch between Server and Profile tabs on mobile
+- **Skip-to-Content Link** - Accessible keyboard shortcut (Tab) to jump directly to main content
+- **Staggered Section Reveals** - Grid children animate in sequentially with cascading delays for a polished feel
+- **Responsive Hero Typography** - Scaled text from `text-5xl` on mobile to `text-9xl` on desktop
+- **Stacking CTA Buttons** - Hero buttons stack vertically on mobile for better tap targets
+- **Improved Grid Breakpoints** - Added 2-column tablet breakpoints for stats, testimonials, and community sections
+- **Better Discord Section Layout** - Smaller server icon, responsive text, full-width Join button on mobile
+- **Responsive Spacing** - Graduated padding across all sections (`p-5 sm:p-6 md:p-8`)
+- **Touch Feedback** - `active:scale-95` on interactive elements for tactile mobile response
 
 ### New Features (v1.1.0)
 - 🌙 **Dark Mode Toggle** - Switch between light and dark themes
@@ -37,9 +50,9 @@ A modern, responsive portfolio website built with React, TypeScript, and Tailwin
 
 ### Responsive Breakpoints
 ```
-- Mobile: < 640px
-- Tablet: 640px - 1024px
-- Desktop: > 1024px
+- Mobile: < 640px (sm)
+- Tablet: 640px - 1024px (sm → lg)
+- Desktop: > 1024px (lg+)
 ```
 
 ---
@@ -94,16 +107,22 @@ The development server will run on `http://localhost:5173`
 hetzel-updated-fixed-translations/
 ├── src/
 │   ├── components/           # Reusable React components
-│   │   ├── Header.tsx        # Navigation header
-│   │   ├── Hero.tsx          # Hero section
-│   │   ├── Projects.tsx      # Projects showcase
-│   │   ├── Skills.tsx        # Skills section
-│   │   ├── Testimonials.tsx  # Client testimonials
-│   │   ├── Contact.tsx       # Contact form
-│   │   └── Footer.tsx        # Footer
+│   │   ├── Nav.tsx           # Navigation header
+│   │   ├── MobileBottomNav.tsx # Fixed bottom nav for mobile
+│   │   ├── DiscordProfileCard.tsx # Discord profile card
+│   │   ├── DiscordProfile.tsx # Discord status widget
+│   │   ├── SettingsPanel.tsx  # Theme customization panel
+│   │   ├── Constellation.tsx  # Background particle effect
+│   │   └── ...               # Other UI components
+│   ├── hooks/                # Custom React hooks
+│   │   ├── use-section-reveal.ts # Scroll reveal + stagger animations
+│   │   └── use-count-up.ts   # Animated counter hook
+│   ├── context/              # React context providers
+│   ├── pages/
+│   │   └── Index.tsx         # Main portfolio page
 │   ├── App.tsx               # Main app component
 │   ├── main.tsx              # Entry point
-│   └── index.css             # Global styles
+│   └── index.css             # Global styles + animations
 ├── public/                   # Static assets
 ├── index.html                # HTML template
 ├── vite.config.ts            # Vite configuration
@@ -279,4 +298,4 @@ For questions, issues, or commission inquiries:
 ---
 
 **Last Updated:** May 2026  
-**Version:** 1.1.0
+**Version:** 1.2.0

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import Constellation from "@/components/Constellation";
 import Nav from "@/components/Nav";
@@ -10,6 +10,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useCustomization } from "@/context/CustomizationContext";
 import { DISCORD_ID, DISCORD_URL, stats, communityStatValues, DISCORD_WEBHOOK, SOCIAL_LINKS } from "@/lib/site-constants";
 import useSectionReveal from "@/hooks/use-section-reveal";
+import { useCountUp } from "@/hooks/use-count-up";
+import MobileBottomNav from "@/components/MobileBottomNav";
 import {
   ArrowUpRight, Bot, Globe, Wrench, Users, Terminal, Server, Cpu, Boxes, Sparkles, Send,
   Star, ChevronDown, ChevronUp, Github, Clock, Youtube,
@@ -30,7 +32,7 @@ function HeroSection() {
         <div className="mb-8">
           <DiscordProfile userId={DISCORD_ID} />
         </div>
-        <h1 className="font-feminine text-7xl tracking-[0.14em] md:text-9xl">
+        <h1 className="font-feminine text-5xl tracking-[0.14em] sm:text-7xl md:text-9xl">
           <span className="text-shimmer">Hetzel401</span>
         </h1>
         <div className="mt-6 terminal-chip">
@@ -39,16 +41,16 @@ function HeroSection() {
         <p className="mx-auto mt-6 max-w-xl text-balance text-muted-foreground md:text-lg">
           {t.hero.description}
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
           <a
             href="#products"
-            className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-105"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3.5 text-sm font-semibold text-background transition-all hover:bg-foreground/90 hover:scale-105 sm:w-auto"
           >
             {t.hero.seeWork} <ArrowUpRight className="h-4 w-4" />
           </a>
           <a
             href="#contact"
-            className="btn-grad-border inline-flex items-center gap-2 rounded-full bg-secondary/50 px-6 py-3 text-sm font-semibold backdrop-blur transition-all hover:scale-105"
+            className="btn-grad-border inline-flex w-full items-center justify-center gap-2 rounded-full bg-secondary/50 px-6 py-3.5 text-sm font-semibold backdrop-blur transition-all hover:scale-105 sm:w-auto"
           >
             <Send className="h-4 w-4" /> {t.hero.startProject}
           </a>
@@ -58,6 +60,50 @@ function HeroSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+// ── Animated Stat Card ──────────────────────────────────────────────────
+
+function AnimatedStatCard({ value, label }: { value: string; label: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const numericPart = parseFloat(value.replace(/[^0-9.]/g, "")) || 0;
+  const suffix = value.replace(/[0-9.]/g, "");
+  const isNumeric = numericPart > 0 && !["∞", "100%", "24/7"].includes(value);
+  const animated = useCountUp(numericPart, 1200, visible);
+  const hasDecimal = value.includes(".");
+
+  const displayValue = !visible
+    ? "0"
+    : isNumeric
+      ? (hasDecimal ? animated.toFixed(1) : Math.round(animated).toString()) + suffix
+      : value;
+
+  return (
+    <div ref={ref} className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-5 card-hover sm:p-6 md:p-8">
+      <div className="card-inner-glow" />
+      <div className="relative">
+        <div className="font-display text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+          {displayValue}
+        </div>
+        <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:text-xs">
+          {label}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -72,9 +118,9 @@ function AboutSection() {
       <SectionLabel label={t.about.sectionLabel} />
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         {/* Bio card */}
-        <div className="relative overflow-hidden rounded-2xl border border-accent/30 bg-card/60 p-8 shadow-[0_0_60px_-20px_hsl(var(--accent)/0.6)] backdrop-blur md:p-10">
+        <div className="relative overflow-hidden rounded-2xl border border-accent/30 bg-card/60 p-6 shadow-[0_0_60px_-20px_hsl(var(--accent)/0.6)] backdrop-blur sm:p-8 md:p-10">
           <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
-          <h2 className="font-display text-3xl font-semibold md:text-4xl">
+          <h2 className="font-display text-2xl font-semibold sm:text-3xl md:text-4xl">
             {t.about.heading} <span className="text-accent">Hetzel401</span>.
           </h2>
           <p className="mt-6 text-muted-foreground leading-relaxed">{t.about.bio1}</p>
@@ -91,27 +137,19 @@ function AboutSection() {
         </div>
 
         {/* Stats grid */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
           {stats.map((s) => (
-            <div key={s.key} className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-6 card-hover md:p-8">
-              <div className="card-inner-glow" />
-              <div className="relative">
-                <div className="font-display text-4xl font-semibold tracking-tight md:text-5xl">{s.value}</div>
-                <div className="mt-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  {t.about.stats[s.key]}
-                </div>
-              </div>
-            </div>
+            <AnimatedStatCard key={s.key} value={s.value} label={t.about.stats[s.key]} />
           ))}
         </div>
       </div>
 
       {/* Stack */}
-      <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3">
+      <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
         {t.stack.items.map(({ label, note }, idx) => {
           const Icon = stackIcons[idx];
           return (
-            <div key={label} className="group flex items-center gap-4 rounded-xl border border-border bg-card/40 p-5 transition-all card-hover">
+            <div key={label} className="stagger-child group flex items-center gap-4 rounded-xl border border-border bg-card/40 p-5 transition-all card-hover">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-accent transition-colors group-hover:bg-accent/20">
                 <Icon className="h-5 w-5" />
               </div>
@@ -237,9 +275,9 @@ function CommunityStatsSection() {
         {s.description}
       </p>
 
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+      <div className="mt-12 grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-4">
         {communityStatIcons.map((Icon, idx) => (
-          <div key={idx} className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-7 card-hover">
+          <div key={idx} className="stagger-child group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-7 card-hover">
             <div className="card-inner-glow" />
             <div className="relative flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent group-hover:bg-accent/20 transition-colors">
@@ -271,9 +309,9 @@ function TestimonialsSection() {
         {testimonialData.heading}
       </h2>
 
-      <div className="mt-12 grid gap-5 md:grid-cols-3">
+      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
         {testimonialData.items.map((item, idx) => (
-          <div key={idx} className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-7 card-hover flex flex-col">
+          <div key={idx} className="stagger-child group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-5 card-hover flex flex-col sm:p-7">
             <div className="card-inner-glow" />
             <div className="relative flex flex-col h-full">
               {/* Stars */}
@@ -388,12 +426,12 @@ function ContactSection() {
   return (
     <section id="contact" className={`relative mx-auto max-w-4xl px-6 py-28 reveal-on-scroll ${BELOW_FOLD}`} style={SECTION_OFFSET}>
       <SectionLabel label={c.sectionLabel} />
-      <div className="mt-6 overflow-hidden rounded-3xl border border-border bg-card/60 p-10 md:p-16 relative">
+      <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-card/60 p-6 sm:p-10 md:p-16 sm:rounded-3xl relative">
         <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-        <h2 className="font-display text-4xl font-semibold leading-tight md:text-5xl">
+        <h2 className="font-display text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
           {c.heading}
         </h2>
-        <p className="mt-4 max-w-xl text-muted-foreground md:text-lg">
+        <p className="mt-4 max-w-xl text-sm text-muted-foreground sm:text-base md:text-lg">
           {c.description}
         </p>
 
@@ -468,23 +506,23 @@ function ContactSection() {
                 {c.dmOnDiscord}
               </a>
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-border/60 pt-6">
-              <span className="font-mono text-xs text-muted-foreground">{c.findMeOn}</span>
-              <a href="https://www.youtube.com/@Hetzel401" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#FF0000] transition-all hover:scale-110">
+            <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-border/60 pt-6 sm:gap-3">
+              <span className="font-mono text-xs text-muted-foreground w-full sm:w-auto">{c.findMeOn}</span>
+              <a href="https://www.youtube.com/@Hetzel401" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#FF0000] transition-all hover:scale-110 active:scale-95">
                 <Youtube className="h-5 w-5" />
               </a>
-              <a href="https://www.roblox.com/users/1517909098/profile" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#e1523d] transition-all hover:scale-110">
+              <a href="https://www.roblox.com/users/1517909098/profile" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#e1523d] transition-all hover:scale-110 active:scale-95">
                 <Gamepad2 className="h-5 w-5" />
               </a>
-              <a href="https://github.com/hetzel401" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-white transition-all hover:scale-110">
+              <a href="https://github.com/hetzel401" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-white transition-all hover:scale-110 active:scale-95">
                 <Github className="h-5 w-5" />
               </a>
-              <a href="https://discordapp.com/users/1097536305027629119" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#5865F2] transition-all hover:scale-110">
+              <a href="https://discordapp.com/users/1097536305027629119" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#5865F2] transition-all hover:scale-110 active:scale-95">
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.7 19.7 0 0 0 3.677 4.37.077.077 0 0 0 3.65 4.487c.72 10.795 5.098 16.793 9.3 17.773.5.084 1.002.084 1.501 0 4.203-.98 8.581-6.978 9.3-17.773.015-.12-.005-.243-.05-.36z" />
                 </svg>
               </a>
-              <a href="mailto:universemax401@gmail.com" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-accent transition-all hover:scale-110">
+              <a href="mailto:universemax401@gmail.com" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-accent transition-all hover:scale-110 active:scale-95">
                 <Send className="h-5 w-5" />
               </a>
             </div>
@@ -814,6 +852,18 @@ function DiscordGUISection() {
   const [inviteLoading, setInviteLoading] = useState(true);
   const { t } = useLanguage();
 
+  // Touch swipe support
+  const touchStartX = useRef(0);
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 50) {
+      setTab(dx > 0 ? "server" : "profile");
+    }
+  }, []);
+
   useEffect(() => {
     const controller = new AbortController();
     fetch("https://discord.com/api/v9/invites/defense?with_counts=true", { signal: controller.signal })
@@ -847,7 +897,7 @@ function DiscordGUISection() {
       style={{ scrollMarginTop: 80 }}
     >
       <SectionLabel label="DISCORD" />
-      <h2 className="mt-4 font-display text-4xl font-semibold md:text-5xl">
+      <h2 className="mt-4 font-display text-3xl font-semibold sm:text-4xl md:text-5xl">
         Find me on{" "}
         <span
           className="text-gradient-brand"
@@ -856,7 +906,7 @@ function DiscordGUISection() {
           Discord
         </span>
       </h2>
-      <p className="mt-3 max-w-xl text-muted-foreground">
+      <p className="mt-3 max-w-xl text-sm text-muted-foreground sm:text-base">
         Live Discord data — server stats, my profile, current status and activity, all in real time.
       </p>
 
@@ -869,40 +919,47 @@ function DiscordGUISection() {
           <button
             key={id}
             onClick={() => setTab(id)}
-            className="rounded-lg px-5 py-2 text-sm font-semibold capitalize transition-all"
+            className="rounded-lg px-4 py-2.5 text-sm font-semibold capitalize transition-all sm:px-5"
             style={
               tab === id
                 ? { background: "#5865F2", color: "#fff" }
                 : { color: "#b5bac1" }
             }
           >
-            {id === "server" ? "🏰 Server" : "👤 Profile"}
+            {id === "server" ? "\uD83C\uDFF0 Server" : "\uD83D\uDC64 Profile"}
           </button>
         ))}
       </div>
 
+      {/* Swipe hint on mobile */}
+      <p className="mt-2 font-mono text-[10px] text-muted-foreground/50 sm:hidden">Swipe to switch tabs</p>
+
       {/* Panel */}
-      <div className="mt-6 flex justify-center">
+      <div
+        className="mt-4 flex justify-center sm:mt-6"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         {tab === "server" ? (
           <div className="w-full max-w-3xl">
             <div
-              className="rounded-3xl border border-border bg-[#24262b] p-6 shadow-2xl"
-              style={{ minHeight: 320 }}
+              className="rounded-2xl border border-border bg-[#24262b] p-5 shadow-2xl sm:rounded-3xl sm:p-6"
+              style={{ minHeight: 280 }}
             >
-              <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-3xl bg-[#1f2330]">
+              <div className="flex flex-col gap-4 sm:gap-6 md:flex-row md:items-center md:justify-between">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl bg-[#1f2330] sm:h-20 sm:w-20 sm:rounded-3xl">
                     {inviteData?.iconUrl ? (
                       <img src={inviteData.iconUrl} alt={inviteData.name} className="h-full w-full object-cover" />
                     ) : (
-                      <span className="text-3xl font-semibold text-white">H</span>
+                      <span className="text-2xl font-semibold text-white sm:text-3xl">H</span>
                     )}
                   </div>
                   <div>
-                    <div className="text-sm font-semibold uppercase tracking-[0.25em] text-[#94a3b8]">
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#94a3b8] sm:text-sm">
                       Discord Community
                     </div>
-                    <h3 className="mt-2 text-3xl font-semibold text-white">
+                    <h3 className="mt-1 text-xl font-semibold text-white sm:mt-2 sm:text-3xl">
                       {inviteData?.name ?? "Hetzel's Workshop"}
                     </h3>
                   </div>
@@ -911,26 +968,26 @@ function DiscordGUISection() {
                   href={DISCORD_URL}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center justify-center rounded-full bg-[#5865F2] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#4752c4]"
+                  className="inline-flex w-full items-center justify-center rounded-full bg-[#5865F2] px-8 py-3 text-sm font-semibold text-white transition hover:bg-[#4752c4] active:scale-95 sm:w-auto"
                 >
                   Join Server
                 </a>
               </div>
 
-              <p className="mt-6 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:mt-6">
                 {inviteData?.description ?? "A supportive community for Discord bots, server design, and custom development."}
               </p>
 
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl bg-[#1e1f22] px-5 py-4">
-                  <div className="text-xs uppercase tracking-[0.25em] text-[#94a3b8]">Members</div>
-                  <div className="mt-2 text-3xl font-semibold text-white">
+              <div className="mt-6 grid gap-3 grid-cols-2 sm:mt-8 sm:gap-4">
+                <div className="rounded-xl bg-[#1e1f22] px-4 py-3 sm:rounded-2xl sm:px-5 sm:py-4">
+                  <div className="text-[10px] uppercase tracking-[0.25em] text-[#94a3b8] sm:text-xs">Members</div>
+                  <div className="mt-1 text-2xl font-semibold text-white sm:mt-2 sm:text-3xl">
                     {inviteLoading ? "..." : inviteData?.members.toLocaleString() ?? "n/a"}
                   </div>
                 </div>
-                <div className="rounded-2xl bg-[#1e1f22] px-5 py-4">
-                  <div className="text-xs uppercase tracking-[0.25em] text-[#94a3b8]">Online now</div>
-                  <div className="mt-2 text-3xl font-semibold text-white">
+                <div className="rounded-xl bg-[#1e1f22] px-4 py-3 sm:rounded-2xl sm:px-5 sm:py-4">
+                  <div className="text-[10px] uppercase tracking-[0.25em] text-[#94a3b8] sm:text-xs">Online now</div>
+                  <div className="mt-1 text-2xl font-semibold text-white sm:mt-2 sm:text-3xl">
                     {inviteLoading ? "..." : inviteData?.online.toLocaleString() ?? "n/a"}
                   </div>
                 </div>
@@ -1039,7 +1096,7 @@ function FullFooter() {
 export default function Index() {
   useSectionReveal();
   return (
-    <div id="top" className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+    <div id="top" className="relative min-h-screen overflow-x-hidden bg-background text-foreground pb-16 sm:pb-0">
       <Helmet>
         <title>Hetzel401 — Discord Bot & Server Developer</title>
         <meta name="description" content="Independent developer building custom Discord bots, server designs, and web projects. Open for commissions." />
@@ -1068,6 +1125,13 @@ export default function Index() {
           }
         `}</script>
       </Helmet>
+      {/* Skip to content - accessibility */}
+      <a
+        href="#about"
+        className="fixed left-4 top-2 z-[999] -translate-y-full rounded-lg bg-accent px-4 py-2 font-mono text-sm text-background transition-transform focus:translate-y-0"
+      >
+        Skip to content
+      </a>
       <Nav />
       <HeroSection />
       <AboutSection />
@@ -1080,6 +1144,7 @@ export default function Index() {
       <DiscordGUISection />
       <QuestionnaireSection />
       <FullFooter />
+      <MobileBottomNav />
     </div>
   );
 }
