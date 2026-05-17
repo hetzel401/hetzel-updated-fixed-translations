@@ -53,7 +53,7 @@ export default function MobileBottomNav() {
                 e.preventDefault();
                 document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
               }}
-              className={`flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] font-mono transition-colors ${
+              className={`relative flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] font-mono transition-colors ${
                 isActive
                   ? "text-accent"
                   : "text-muted-foreground active:text-foreground"
