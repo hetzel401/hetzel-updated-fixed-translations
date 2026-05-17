@@ -2,7 +2,7 @@
 
 A modern, responsive portfolio website built with React, TypeScript, and Tailwind CSS showcasing custom Discord bot development, server design, and web projects.
 
-**Live Demo:** [https://hetzel-updated.vercel.app](https://hetzel-updated.vercel.app)
+**Live Demo:** : https://www.hetzel401.com
 
 ---
 
@@ -263,9 +263,9 @@ This project is open source and available under the MIT License.
 - Web development projects
 - Community management solutions
 
-📧 **Email:** [your-email@example.com]
-🔗 **Discord:** [Your Discord Tag]
-💼 **Portfolio:** [https://hetzel-updated.vercel.app](https://hetzel-updated.vercel.app)
+📧 **Email:** [universemax401@gmail.com]
+🔗 **Discord:** https://discord.gg/defense or hetzel401
+💼 **Portfolio:** https://www.hetzel401.com
 
 ---
 
