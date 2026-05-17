@@ -26,16 +26,26 @@ function HeroSection() {
   return (
     <section className="relative flex min-h-screen items-center justify-center px-6 pt-40 pb-16">
       <Constellation />
-      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center animate-fade-up">
-        <div className="mb-8">
-          <DiscordProfile userId={DISCORD_ID} />
-        </div>
-        <h1 className="font-feminine text-7xl tracking-[0.14em] md:text-9xl">
-          <span className="text-shimmer">Hetzel401</span>
-        </h1>
-        <div className="mt-6 terminal-chip">
-          <Typewriter />
-        </div>
+      <div className="relative z-10 mx-auto max-w-3xl animate-fade-up">
+        <div className="window-frame overflow-hidden">
+          <div className="window-toolbar">
+            <div className="title">Hetzel401</div>
+            <div className="flex items-center gap-2">
+              <button className="window-button" aria-label="Minimize">–</button>
+              <button className="window-button" aria-label="Maximize">□</button>
+              <button className="window-button" aria-label="Close">×</button>
+            </div>
+          </div>
+          <div className="panel-window flex flex-col items-center text-center px-8 py-10">
+            <div className="mb-8">
+              <DiscordProfile userId={DISCORD_ID} />
+            </div>
+            <h1 className="font-feminine text-7xl tracking-[0.14em] md:text-9xl">
+              <span className="text-shimmer">Hetzel401</span>
+            </h1>
+            <div className="mt-6 terminal-chip">
+              <Typewriter />
+            </div>
         <p className="mx-auto mt-6 max-w-xl text-balance text-muted-foreground md:text-lg">
           {t.hero.description}
         </p>

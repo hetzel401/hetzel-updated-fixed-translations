@@ -39,9 +39,10 @@ function App() {
         <CustomizationProvider>
           <LanyardProvider>
           <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-            <LiveFavicon />
-            <LoadingScreen />
-            <AnnouncementBanner />
+            <div className="windows-shell">
+              <LiveFavicon />
+              <LoadingScreen />
+              <AnnouncementBanner />
               <ScrollProgress />
               <CustomCursor />
               <ClickRipple />
@@ -55,7 +56,8 @@ function App() {
               <ClockWidget />
               <QuoteWidget />
               <BackToTop />
-            </WouterRouter>
+            </div>
+          </WouterRouter>
           </LanyardProvider>
         </CustomizationProvider>
       </LanguageProvider>

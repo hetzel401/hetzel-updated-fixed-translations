@@ -74,7 +74,7 @@ const Nav = () => {
   return (
     <header className="fixed left-1/2 top-4 z-50 w-full max-w-5xl -translate-x-1/2 px-4">
       {/* ── Desktop nav ─────────────────────────────────────────── */}
-      <nav className="glass flex items-center gap-1.5 rounded-full px-3 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
+      <nav className="window-frame flex items-center gap-1.5 rounded-sm px-3 py-2">
 
         {/* Brand */}
         <Link
