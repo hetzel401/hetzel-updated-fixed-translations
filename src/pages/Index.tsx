@@ -67,7 +67,9 @@ function HeroSection() {
           <ChevronDown className="h-4 w-4" /> {t.hero.scroll}
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
   );
 }
 
