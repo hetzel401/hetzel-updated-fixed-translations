@@ -276,7 +276,11 @@ export default function BackgroundManager() {
 
   switch (config.backgroundType) {
     case "orbs":
-      return <OrbLayer />;
+  return (
+    <BackgroundStack>
+      <OrbLayer />
+    </BackgroundStack>
+  );
     case "gradient":
       return (
         <BackgroundStack>
