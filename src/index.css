@@ -76,6 +76,7 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     background-color: #000;
+    overflow-x: hidden;
   }
   ::selection { background: hsl(var(--accent) / 0.35); color: hsl(var(--foreground)); }
 }
@@ -303,6 +304,6 @@
   .animate-aurora-3        { animation: aurora-3 18s ease-in-out infinite; }
 
   .cursor-nav {
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><defs><radialGradient id='g' cx='50%25' cy='50%25' r='50%25'><stop offset='0%25' stop-color='%23d8b4fe' stop-opacity='1'/><stop offset='40%25' stop-color='%23a78bfa' stop-opacity='0.9'/><stop offset='100%25' stop-color='%236366f1' stop-opacity='0'/></radialGradient></defs><circle cx='14' cy='14' r='12' fill='url(%23g)'/><circle cx='14' cy='14' r='3' fill='%23ffffff'/></svg>") 14 14, auto;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><defs><radialGradient id='g' cx='50%25' cy='50%25' r='50%25'><stop offset='0%25' stop-color='hsl(260 85% 70%)'/><stop offset='100%25' stop-color='hsl(240 80% 60%)'/></radialGradient></defs><circle cx='14' cy='14' r='12' fill='url(%23g)' opacity='0.6'/><circle cx='14' cy='14' r='8' fill='none' stroke='hsl(270 85% 75%)' stroke-width='1' opacity='0.8'/></svg>") 14 14, auto;
   }
 }
