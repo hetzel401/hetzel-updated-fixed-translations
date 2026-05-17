@@ -12,6 +12,10 @@ import { DISCORD_ID, DISCORD_URL, stats, communityStatValues, DISCORD_WEBHOOK, S
 import useSectionReveal from "@/hooks/use-section-reveal";
 import { useCountUp } from "@/hooks/use-count-up";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import SectionDots from "@/components/SectionDots";
+import YouTubeSection from "@/components/YouTubeSection";
+import CopyDiscordTag from "@/components/CopyDiscordTag";
+import SkillsMarquee from "@/components/SkillsMarquee";
 import {
   ArrowUpRight, Bot, Globe, Wrench, Users, Terminal, Server, Cpu, Boxes, Sparkles, Send,
   Star, ChevronDown, ChevronUp, Github, Clock, Youtube,
@@ -25,9 +29,19 @@ const BELOW_FOLD = "content-visibility-auto";
 
 function HeroSection() {
   const { t } = useLanguage();
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <section className="relative flex min-h-screen items-center justify-center px-6 pt-28 pb-16">
-      <Constellation />
+    <section className="relative flex min-h-screen items-center justify-center px-6 pt-28 pb-16 overflow-hidden">
+      <div style={{ transform: `translateY(${scrollY * 0.35}px)`, willChange: "transform" }} className="absolute inset-0">
+        <Constellation />
+      </div>
       <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center animate-fade-up">
         <div className="mb-8">
           <DiscordProfile userId={DISCORD_ID} />
@@ -1011,6 +1025,9 @@ function DiscordGUISection() {
         </a>{" "}
         · Updates every 30s
       </p>
+      <div className="mt-4 flex justify-center">
+        <CopyDiscordTag tag="hetzel401" />
+      </div>
     </section>
   );
 }
@@ -1135,15 +1152,18 @@ export default function Index() {
       <Nav />
       <HeroSection />
       <AboutSection />
+      <SkillsMarquee />
       <TimelineSection />
       <FeaturedProductsSection />
       <CommunityStatsSection />
       <TestimonialsSection />
+      <YouTubeSection />
       <FAQSection />
       <ContactSection />
       <DiscordGUISection />
       <QuestionnaireSection />
       <FullFooter />
+      <SectionDots />
       <MobileBottomNav />
     </div>
   );
