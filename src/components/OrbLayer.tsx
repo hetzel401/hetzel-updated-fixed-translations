@@ -231,8 +231,7 @@ function Orb({ orb, shouldAnimate, mouseX, mouseY }: OrbProps): JSX.Element {
         opacity: orb.opacity,
         filter: `blur(${Math.max(80, Math.round(orb.size * 0.18))}px)`,
         willChange: "transform",
-        translateX: useTransform(() => "-50%"),
-        translateY: useTransform(() => "-50%"),
+        transform: "translate(-50%, -50%)",
         x: cursorOffsetX,
         y: cursorOffsetY,
       }}
