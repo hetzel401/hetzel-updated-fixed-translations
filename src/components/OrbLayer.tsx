@@ -1,8 +1,10 @@
-// OrbLayer — floating gradient orbs background component
+// OrbLayer — floating gradient orbs background component with cursor tracking
 // All orb configuration is computed once at module load via a deterministic
 // seeded PRNG so React re-renders never reset animation state.
+// Enhanced with cursor-tracking for interactive experience.
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useMotionValue, useTransform } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 // ---------------------------------------------------------------------------
 // Seeded pseudo-random number generator (linear-congruential)
@@ -51,6 +53,8 @@ export type OrbConfig = {
   scaleDuration: number;
   /** CSS opacity; 0.12 ≤ opacity ≤ 0.25 */
   opacity: number;
+  /** Cursor influence strength (0–1) */
+  cursorInfluence: number;
 };
 
 // ---------------------------------------------------------------------------
@@ -117,6 +121,9 @@ export function buildOrbs(): OrbConfig[] {
       parseFloat((0.85 + rand() * 0.30).toFixed(3)),
     ];
 
+    // cursorInfluence: 0.2–0.6 (varies per orb)
+    const cursorInfluence = parseFloat((0.2 + rand() * 0.4).toFixed(2));
+
     // color: cycle through palette colors
     const paletteColor = PALETTE[n % PALETTE.length];
     const color = `radial-gradient(circle, ${paletteColor} 0%, transparent 70%)`;
@@ -133,6 +140,7 @@ export function buildOrbs(): OrbConfig[] {
       duration,
       scaleDuration,
       opacity,
+      cursorInfluence,
     };
   });
 }
@@ -145,16 +153,117 @@ export function buildOrbs(): OrbConfig[] {
 export const ORBS: OrbConfig[] = buildOrbs();
 
 // ---------------------------------------------------------------------------
+// Orb component with cursor tracking
+// ---------------------------------------------------------------------------
+
+interface OrbProps {
+  orb: OrbConfig;
+  shouldAnimate: boolean;
+  mouseX: ReturnType<typeof useMotionValue>;
+  mouseY: ReturnType<typeof useMotionValue>;
+}
+
+function Orb({ orb, shouldAnimate, mouseX, mouseY }: OrbProps): JSX.Element {
+  const initialXPx = useRef(0);
+  const initialYPx = useRef(0);
+
+  // Convert initial position to pixels
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const vwValue = parseInt(orb.initialX) * (window.innerWidth / 100);
+    const vhValue = parseInt(orb.initialY) * (window.innerHeight / 100);
+    initialXPx.current = vwValue;
+    initialYPx.current = vhValue;
+  }, [orb.initialX, orb.initialY]);
+
+  // Calculate distance from cursor and apply attraction
+  const cursorDistance = useTransform(
+    [mouseX, mouseY],
+    ([x, y]: [number, number]) => {
+      const dx = x - initialXPx.current;
+      const dy = y - initialYPx.current;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+  );
+
+  const cursorOffsetX = useTransform(
+    mouseX,
+    (x) => {
+      const dx = x - initialXPx.current;
+      return dx * orb.cursorInfluence * 0.15;
+    }
+  );
+
+  const cursorOffsetY = useTransform(
+    mouseY,
+    (y) => {
+      const dy = y - initialYPx.current;
+      return dy * orb.cursorInfluence * 0.15;
+    }
+  );
+
+  return (
+    <motion.div
+      key={orb.id}
+      initial={{ x: 0, y: 0, scale: 1 }}
+      animate={
+        shouldAnimate
+          ? { x: orb.animateX, y: orb.animateY, scale: orb.animateScale }
+          : undefined
+      }
+      transition={
+        shouldAnimate
+          ? {
+              x: { duration: orb.duration, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
+              y: { duration: orb.duration, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
+              scale: { duration: orb.scaleDuration, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
+            }
+          : undefined
+      }
+      style={{
+        position: "absolute",
+        left: orb.initialX,
+        top: orb.initialY,
+        width: orb.size,
+        height: orb.size,
+        borderRadius: "50%",
+        background: orb.color,
+        opacity: orb.opacity,
+        filter: `blur(${Math.max(80, Math.round(orb.size * 0.18))}px)`,
+        willChange: "transform",
+        translateX: useTransform(() => "-50%"),
+        translateY: useTransform(() => "-50%"),
+        x: cursorOffsetX,
+        y: cursorOffsetY,
+      }}
+    />
+  );
+}
+
+// ---------------------------------------------------------------------------
 // OrbLayer component
 // ---------------------------------------------------------------------------
 
 /**
  * Renders a fixed full-viewport layer of blurred gradient orbs behind all
- * page content. No props, no external state — fully self-contained.
+ * page content with cursor-tracking interaction. No props, no external state.
  */
 export default function OrbLayer(): JSX.Element {
   const prefersReducedMotion = useReducedMotion();
   const shouldAnimate = !prefersReducedMotion;
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
 
   return (
     <div
@@ -170,37 +279,12 @@ export default function OrbLayer(): JSX.Element {
       }}
     >
       {ORBS.map((orb) => (
-        <motion.div
+        <Orb
           key={orb.id}
-          initial={{ x: 0, y: 0, scale: 1 }}
-          animate={
-            shouldAnimate
-              ? { x: orb.animateX, y: orb.animateY, scale: orb.animateScale }
-              : undefined
-          }
-          transition={
-            shouldAnimate
-              ? {
-                  x: { duration: orb.duration, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
-                  y: { duration: orb.duration, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
-                  scale: { duration: orb.scaleDuration, ease: "easeInOut", repeat: Infinity, repeatType: "mirror" },
-                }
-              : undefined
-          }
-          style={{
-            position: "absolute",
-            left: orb.initialX,
-            top: orb.initialY,
-            width: orb.size,
-            height: orb.size,
-            borderRadius: "50%",
-            background: orb.color,
-            opacity: orb.opacity,
-            filter: `blur(${Math.max(80, Math.round(orb.size * 0.18))}px)`,
-            willChange: "transform",
-            translateX: "-50%",
-            translateY: "-50%",
-          }}
+          orb={orb}
+          shouldAnimate={shouldAnimate}
+          mouseX={mouseX}
+          mouseY={mouseY}
         />
       ))}
     </div>

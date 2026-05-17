@@ -12,7 +12,7 @@ import { DISCORD_ID, DISCORD_URL, stats, communityStatValues, DISCORD_WEBHOOK, S
 import useSectionReveal from "@/hooks/use-section-reveal";
 import {
   ArrowUpRight, Bot, Globe, Wrench, Users, Terminal, Server, Cpu, Boxes, Sparkles, Send,
-  Star, ChevronDown, ChevronUp, Github, Clock, Youtube,
+  Star, ChevronDown, ChevronUp, Github, Clock,
   Zap, Gamepad2, Code2, Swords
 } from "lucide-react";
 
@@ -470,9 +470,6 @@ function ContactSection() {
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-border/60 pt-6">
               <span className="font-mono text-xs text-muted-foreground">{c.findMeOn}</span>
-              <a href="https://www.youtube.com/@Hetzel401" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#FF0000] transition-all hover:scale-110">
-                <Youtube className="h-5 w-5" />
-              </a>
               <a href="https://www.roblox.com/users/1517909098/profile" target="_blank" rel="noreferrer noopener" className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/40 text-[#e1523d] transition-all hover:scale-110">
                 <Gamepad2 className="h-5 w-5" />
               </a>
@@ -964,7 +961,6 @@ function SocialIcon({ label }: { label: string }) {
       <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.7 19.7 0 0 0 3.677 4.37.077.077 0 0 0 3.65 4.487c.72 10.795 5.098 16.793 9.3 17.773.5.084 1.002.084 1.501 0 4.203-.98 8.581-6.978 9.3-17.773.015-.12-.005-.243-.05-.36z" />
     </svg>
   );
-  if (label === "YouTube") return <Youtube className="h-5 w-5" />;
   if (label === "Roblox")  return <Gamepad2 className="h-5 w-5" />;
   if (label === "GitHub")  return <Github className="h-5 w-5" />;
   return <Send className="h-5 w-5" />;
@@ -1062,7 +1058,6 @@ export default function Index() {
             "jobTitle": "Discord Bot & Server Developer",
             "sameAs": [
               "https://github.com/hetzel401",
-              "https://www.youtube.com/@Hetzel401",
               "https://discordapp.com/users/1097536305027629119"
             ]
           }

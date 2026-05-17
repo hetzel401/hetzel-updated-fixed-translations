@@ -114,7 +114,7 @@ const en = {
     heading:      "Tools I reach for.",
     items: [
       { label: "Code",                    note: "Node.js"          },
-      { label: "Personal learning tools", note: "YouTube / GitHub" },
+      { label: "Personal learning tools", note: "GitHub" },
       { label: "VPS · Vercel",            note: "What I use to host" },
       { label: "VS CODE",                 note: "Coding platform"  },
       { label: "Made by hetzel401!",      note: "Made by me!"      },
@@ -275,7 +275,7 @@ const es: typeof en = {
     sectionLabel: "TECNOLOGÍA", heading: "Herramientas que uso.",
     items: [
       { label: "Código",                note: "Node.js"          },
-      { label: "Herramientas",          note: "YouTube / GitHub" },
+      { label: "Herramientas",          note: "GitHub" },
       { label: "VPS · Vercel",          note: "Para alojar"      },
       { label: "VS CODE",               note: "Plataforma de código" },
       { label: "¡Hecho por hetzel401!", note: "¡hecho por mí!"  },
@@ -435,7 +435,7 @@ const fr: typeof en = {
     sectionLabel: "OUTILS", heading: "Mes outils.",
     items: [
       { label: "Code",               note: "Node.js"          },
-      { label: "Apprentissage",      note: "YouTube / GitHub" },
+      { label: "Apprentissage",      note: "GitHub" },
       { label: "VPS · Vercel",       note: "Hébergement"      },
       { label: "VS CODE",            note: "IDE"              },
       { label: "Fait par hetzel401 !", note: "Fait par moi !" },
@@ -595,7 +595,7 @@ const de: typeof en = {
     sectionLabel: "WERKZEUGE", heading: "Meine Tools.",
     items: [
       { label: "Code",                   note: "Node.js"          },
-      { label: "Lernressourcen",         note: "YouTube / GitHub" },
+      { label: "Lernressourcen",         note: "GitHub" },
       { label: "VPS · Vercel",           note: "Hosting"          },
       { label: "VS CODE",                note: "IDE"              },
       { label: "Von hetzel401 erstellt!", note: "Von mir!"        },
@@ -755,7 +755,7 @@ const pt: typeof en = {
     sectionLabel: "FERRAMENTAS", heading: "Minhas ferramentas.",
     items: [
       { label: "Código",              note: "Node.js"          },
-      { label: "Aprendizado",         note: "YouTube / GitHub" },
+      { label: "Aprendizado",         note: "GitHub" },
       { label: "VPS · Vercel",        note: "Hospedagem"       },
       { label: "VS CODE",             note: "IDE"              },
       { label: "Feito por hetzel401!", note: "Feito por mim!"  },
@@ -915,7 +915,7 @@ const ja: typeof en = {
     sectionLabel: "技術", heading: "使用ツール。",
     items: [
       { label: "コード",          note: "Node.js"          },
-      { label: "学習ツール",      note: "YouTube / GitHub" },
+      { label: "学習ツール",      note: "GitHub" },
       { label: "VPS · Vercel",   note: "ホスティング"      },
       { label: "VS CODE",        note: "IDE"              },
       { label: "hetzel401制作！", note: "自作！"           },

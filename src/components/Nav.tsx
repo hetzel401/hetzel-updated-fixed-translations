@@ -44,7 +44,6 @@ const Nav = () => {
   ];
 
   const mobileExtras = [
-    { href: "https://www.youtube.com/@Hetzel401",                  label: "YouTube"  },
     { href: "https://www.roblox.com/users/1517909098/profile",     label: "Roblox"   },
     { href: "https://github.com/hetzel401",                        label: "GitHub"   },
     { href: "https://discordapp.com/users/1097536305027629119",    label: "Discord"  },

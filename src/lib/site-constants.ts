@@ -14,7 +14,6 @@ export const EMAIL        = "universemax401@gmail.com";
 // Add/remove entries here to update the footer social icons.
 export const SOCIAL_LINKS = [
   { label: "Discord", href: "https://discordapp.com/users/1097536305027629119", color: "#5865F2" },
-  { label: "YouTube", href: "https://www.youtube.com/@Hetzel401",               color: "#FF0000" },
   { label: "Roblox",  href: "https://www.roblox.com/users/1517909098/profile",  color: "#e1523d" },
   { label: "GitHub",  href: "https://github.com/hetzel401",                     color: "#ffffff" },
   { label: "Email",   href: `mailto:${EMAIL}`,                                   color: "hsl(var(--accent))" },
@@ -53,7 +52,8 @@ export const communityStatValues = [
 ] as const;
 
 // ── Videos ───────────────────────────────────────────────────────────────────
-// Replace with your real YouTube video IDs and metadata.
+// Optional: Replace with your real video metadata or disable videos section.
+// This is currently not displayed but kept for future use.
 export const VIDEOS = [
   {
     id:       "dQw4w9WgXcQ",
