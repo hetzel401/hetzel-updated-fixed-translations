@@ -32,40 +32,40 @@
 }
 
 :root {
-  --glass-alpha: 0.4;
-  --background: 260 15% 4%;
-  --foreground: 270 20% 98%;
-  --card: 260 20% 7%;
-  --card-foreground: 270 20% 98%;
-  --popover: 260 20% 7%;
-  --popover-foreground: 270 20% 98%;
-  --primary: 270 85% 70%;
-  --primary-foreground: 0 0% 0%;
-  --secondary: 260 25% 10%;
-  --secondary-foreground: 270 20% 95%;
-  --muted: 260 20% 13%;
-  --muted-foreground: 260 20% 60%;
-  --accent: 260 85% 70%;
-  --accent-foreground: 0 0% 0%;
-  --indigo: 240 80% 60%;
-  --lilac: 275 90% 80%;
-  --glow: 265 90% 72%;
-  --destructive: 0 72% 55%;
-  --destructive-foreground: 270 20% 98%;
-  --border: 260 25% 12%;
-  --input: 260 25% 12%;
-  --ring: 260 85% 70%;
-  --radius: 0.75rem;
+  --glass-alpha: 0.45;
+  --background: 230 18% 11%;
+  --foreground: 220 18% 96%;
+  --card: 230 20% 12%;
+  --card-foreground: 220 18% 96%;
+  --popover: 230 20% 12%;
+  --popover-foreground: 220 18% 96%;
+  --primary: 255 85% 72%;
+  --primary-foreground: 210 18% 12%;
+  --secondary: 240 16% 18%;
+  --secondary-foreground: 220 18% 92%;
+  --muted: 233 18% 21%;
+  --muted-foreground: 235 18% 66%;
+  --accent: 266 92% 68%;
+  --accent-foreground: 0 0% 100%;
+  --indigo: 238 90% 64%;
+  --lilac: 286 88% 78%;
+  --glow: 266 96% 82%;
+  --destructive: 354 82% 62%;
+  --destructive-foreground: 220 18% 96%;
+  --border: 234 18% 22%;
+  --input: 234 18% 18%;
+  --ring: 261 82% 69%;
+  --radius: 0.85rem;
   --gradient-hero:
-    radial-gradient(ellipse at 20% 10%, hsl(240 80% 45% / 0.35), transparent 55%),
-    radial-gradient(ellipse at 80% 90%, hsl(275 90% 65% / 0.28), transparent 55%),
-    radial-gradient(ellipse at 50% 50%, hsl(260 85% 50% / 0.15), transparent 70%);
+    radial-gradient(circle at 12% 12%, hsl(238 96% 75% / 0.28), transparent 22%),
+    radial-gradient(circle at 78% 14%, hsl(331 92% 74% / 0.2), transparent 24%),
+    radial-gradient(circle at 54% 82%, hsl(203 96% 70% / 0.16), transparent 38%);
   --gradient-text:
-    linear-gradient(135deg, hsl(270 20% 98%), hsl(260 85% 78%) 50%, hsl(240 80% 70%));
+    linear-gradient(140deg, #eef2ff, #c084fc 46%, #7c3aed 96%);
   --gradient-brand:
-    linear-gradient(135deg, hsl(var(--indigo)), hsl(var(--accent)), hsl(var(--lilac)));
-  --shadow-glow: 0 0 60px hsl(var(--accent) / 0.45);
-  --shadow-card: 0 10px 40px -12px hsl(240 80% 30% / 0.4);
+    linear-gradient(135deg, #8b5cf6, #ec4899, #38bdf8);
+  --shadow-glow: 0 0 80px hsl(var(--accent) / 0.35);
+  --shadow-card: 0 18px 60px -24px hsl(240 90% 20% / 0.42);
   --app-font-sans: 'Inter', ui-sans-serif, system-ui;
   --app-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
@@ -74,8 +74,14 @@
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    background-color: #000;
+    @apply text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgba(99,102,241,0.18), transparent 26%),
+      radial-gradient(circle at 80% 10%, rgba(236,72,153,0.16), transparent 20%),
+      radial-gradient(circle at 50% 80%, rgba(56,189,248,0.12), transparent 35%),
+      linear-gradient(180deg, #030712 0%, #070c1d 45%, #02040b 100%);
+    background-color: #020617;
+    min-height: 100vh;
     overflow-x: hidden;
   }
   ::selection { background: hsl(var(--accent) / 0.35); color: hsl(var(--foreground)); }

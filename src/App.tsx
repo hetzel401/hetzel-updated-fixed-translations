@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Route, Routes, Router as WouterRouter } from "wouter";
 import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { CustomizationProvider } from "@/context/CustomizationContext";
@@ -24,11 +24,11 @@ import LiveFavicon from "@/components/LiveFavicon";
 
 function Router() {
   return (
-    <Switch>
+    <Routes>
       <Route path="/" component={Index} />
       <Route path="/admin" component={DashboardPage} />
-      <Route component={NotFound} />
-    </Switch>
+      <Route path="*" component={NotFound} />
+    </Routes>
   );
 }
 
