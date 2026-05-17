@@ -37,6 +37,13 @@ A modern, responsive portfolio website built with React, TypeScript, and Tailwin
 - **Responsive Spacing** - Graduated padding across all sections (`p-5 sm:p-6 md:p-8`)
 - **Touch Feedback** - `active:scale-95` on interactive elements for tactile mobile response
 
+### New Features (v1.3.0)
+- **Section Navigation Dots** - Floating side dot navigation (desktop) showing current section with labels on hover, clickable to jump between sections
+- **YouTube Video Section** - Embedded video gallery using existing VIDEOS data with inline playback, thumbnails, view/like counts, and duration badges
+- **Skills Marquee** - Animated infinite-scroll ticker of tech skills between About and Timeline sections, respects `prefers-reduced-motion`
+- **Copy Discord Tag** - Click-to-copy button for Discord username with checkmark toast feedback
+- **Parallax Hero Background** - Constellation background scrolls at 0.35x speed for a subtle depth effect
+
 ### New Features (v1.1.0)
 - 🌙 **Dark Mode Toggle** - Switch between light and dark themes
 - 📱 **Mobile Menu** - Responsive navigation drawer
@@ -113,6 +120,10 @@ hetzel-updated-fixed-translations/
 │   │   ├── DiscordProfile.tsx # Discord status widget
 │   │   ├── SettingsPanel.tsx  # Theme customization panel
 │   │   ├── Constellation.tsx  # Background particle effect
+│   │   ├── SectionDots.tsx    # Floating side dot navigation
+│   │   ├── YouTubeSection.tsx # YouTube video embed gallery
+│   │   ├── CopyDiscordTag.tsx # Click-to-copy Discord tag
+│   │   ├── SkillsMarquee.tsx  # Animated skills ticker
 │   │   └── ...               # Other UI components
 │   ├── hooks/                # Custom React hooks
 │   │   ├── use-section-reveal.ts # Scroll reveal + stagger animations
@@ -298,4 +309,4 @@ For questions, issues, or commission inquiries:
 ---
 
 **Last Updated:** May 2026  
-**Version:** 1.2.0
+**Version:** 1.3.0
